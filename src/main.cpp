@@ -14,7 +14,7 @@
 
 int main() {
 
-    std::cout << "Memoarrr! anything" << std::endl;
+    std::cout << "Memoarrr!" << std::endl;
 
     return 0;
 }
