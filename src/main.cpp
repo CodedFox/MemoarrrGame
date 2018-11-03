@@ -4,6 +4,7 @@
 #include "card.h"
 #include "cardDeck.h"
 #include "deck.h"
+#include "expertBoard.h"
 #include "expertRules.h"
 #include "game.h"
 #include "player.h"
