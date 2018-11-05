@@ -2,24 +2,22 @@
 #include <string>
 
 #include "board.h"
-class Letter;
-class Number;
 
-bool isFaceUp( const Letter&, const Number& ) {
+bool Board::isFaceUp( const Letter&, const Number& ) {
 
     return true;
 } 
 
-bool turnFaceUp( const Letter&, const Number& ) {
+bool Board::turnFaceUp( const Letter&, const Number& ) {
 
     return true;
 }
 
-bool turnFaceDown( const Letter&, const Number& ) {
+bool Board::turnFaceDown( const Letter&, const Number& ) {
 
     return true;
 }
 
-void reset() {
+void Board::reset() {
 
 }

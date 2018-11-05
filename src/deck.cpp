@@ -2,17 +2,16 @@
 #include <string>
 
 #include "deck.h"
-#include "card.h"
 
-void shuffle() {
+void Deck::shuffle() {
 
 }
 
-// Card* getNext() {
+// Card* Deck::getNext() {
 
 // }
 
-bool isEmpty() {
+bool Deck::isEmpty() {
 
     return true;
 }

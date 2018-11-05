@@ -4,17 +4,17 @@
 #include "rules.h"
 #include "game.h"
 
-bool isValid(const Game&) {
+bool Rules::isValid(const Game&) {
 
     return true;
 }
 
-bool gameOver(const Game&) {
+bool Rules::gameOver(const Game&) {
 
     return true;
 }
 
-bool roundOver(const Game&) {
+bool Rules::roundOver(const Game&) {
 
     return true;
 }

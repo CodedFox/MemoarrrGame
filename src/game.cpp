@@ -5,29 +5,29 @@
 #include "player.h"
 #include "card.h"
 
-int getRound() {
+int Game::getRound() {
 
     return 0;
 }
 
-void addPlayer( const Player& ) {
+void Game::addPlayer( const Player& ) {
 
 }
 
-// Player& getPlayer() {
+// Player& Game::getPlayer() {
 
 // }
 
-const Card* getPreviousCard() {
+const Card* Game::getPreviousCard() {
 
     return nullptr;
 }
 
-const Card* getCurrentCard() {
+const Card* Game::getCurrentCard() {
 
     return nullptr;
 }
 
-void setCurrentCard( const Card*) {
+void Game::setCurrentCard( const Card*) {
 
 }
