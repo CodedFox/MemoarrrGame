@@ -7,7 +7,7 @@
 class Card {
 // Note that Penguin and Red are enumeration values of type FaceAnimal and FaceBackground.
 enum class FaceAnimal{walrus='W', penguin='P', turtle='T', octopus='O', crab='C'};
-enum class FaceBackground{red='r', green='g', purple='p', blue ='b', yellow='y', blank='z'};
+enum class FaceBackground{red='r', green='g', purple='p', blue ='b', yellow='y'};
     private:
         
 

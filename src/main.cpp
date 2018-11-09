@@ -11,6 +11,10 @@
 #include "reward.h"
 #include "rewardDeck.h"
 #include "rules.h"
+#if  !defined(TEST_BOARD_) && !defined(TEST_CARD_) &&  !defined(TEST_CARD_DECK_) &&  \
+ !defined(TEST_DECK_) &&  !defined(TEST_EXPERT_BOARD_) &&  !defined(TEST_EXPERT_RULES_) && \
+ !defined(TEST_GAME_) &&  !defined(TEST_PLAYER_) &&  !defined(TEST_REWARD_) && \
+ !defined(TEST_REWARD_DECK_) &&  !defined(TEST_REWARD_DECK_) &&  !defined(TEST_RULES_)
 
 int main() {
 
@@ -37,3 +41,4 @@ int main() {
 
     return 0;
 }
+#endif
