@@ -30,4 +30,5 @@ void Player::addReward( const Reward& ) {
 void Player::setDisplayMode(bool endOfGame) {
 
     endOfGame = false; // must be removed, inserted to solve variable not in use error
+    if(endOfGame){return;} //added to avoid set but not used
 }
