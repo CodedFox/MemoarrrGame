@@ -4,13 +4,9 @@
 // Design a class Board which holds an array of strings corresponding to the screen display of the game.
 class Board {
     private:
-        class Letter {
+        enum class Letter {A,B,C,D,E};
 
-        };
-
-        class Number {
-
-        };
+        enum class Number {_1, _2, _3, _4, _5}; //from https://stackoverflow.com/a/13332140
 
     public:
         /* const returns true if the card at a given position is face up. Letter and Number are enumerations. 
@@ -25,9 +21,10 @@ class Board {
         of type OutOfRange if an invalid Letter and Number combination was given. */
         bool turnFaceDown( const Letter&, const Number& );
 
-        /* changes the state to all cards to be face down. A board must be printable with the insertion operator 
-        cout << board. */
+        /* changes the state to all cards to be face down. */
         void reset();
+
+        /*A board must be printable with the insertion operator cout << board. */
 };
 
 #endif

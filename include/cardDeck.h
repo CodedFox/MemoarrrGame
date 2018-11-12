@@ -1,8 +1,9 @@
 #ifndef CARD_DECK_H
 #define CARD_DECK_H
-
+#include "deck.h"
+class Deck;
 // Design a class CardDeck derived from Deck<Card>.
-class CardDeck {
+class CardDeck : public Deck {
     private:
 
     public:

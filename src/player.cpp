@@ -3,32 +3,49 @@
 
 #include "player.h"
 #include "reward.h"
+Player::Player() {}
+Player::Player(std::string name, std::string bs) : playerName(name), boardSide(bs) {}
+std::string Player::getName() const {
 
-std::string Player::getName() {
-
-    return "";
+    return Player::playerName;
 }
 
-void Player::setActive(bool) {
-
+void Player::setActive(bool a) {
+        Player::active = a;
 }
 
-bool Player::isActive() {
+bool Player::isActive() const {
 
-    return true;
+    return Player::active;
 }
 
-int Player::getNRubies() {
+int Player::getNRubies() const {
 
-    return 0;
+    return Player::numRubies;
 }
+std::string Player::getBoardSide() const {
 
-void Player::addReward( const Reward& ) {
-
+    return Player::boardSide; 
+}
+void Player::addReward( const Reward& r) {
+Player::numRubies += r.getNumRubies();
 }
 
 void Player::setDisplayMode(bool endOfGame) {
+    std::string str = this->playerName + ":";
+if (endOfGame) {
+    str += std::to_string(this->numRubies);
+    str += (this->numRubies>1?" rubies":" ruby");
+    }
+    else 
+    { std::string act = this->isActive() ? " (active)" : " (inactive)";
+        str += this->boardSide + act;
+         }
+    Player::displayMode = str;
+}
 
-    endOfGame = false; // must be removed, inserted to solve variable not in use error
-    if(endOfGame){return;} //added to avoid set but not used
+std::ostream &operator<<(std::ostream &os, const Player &p){
+    
+    os << p.displayMode;
+    return os;
 }

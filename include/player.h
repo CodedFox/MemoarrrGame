@@ -9,14 +9,20 @@ class Reward;
 // Design a class Player which combines all information for a player including name, 
 // side of the board (top, bottom, left or right) and has the current count of rubies.
 class Player {
-    private:
-        bool endOfGame;
-
+    private:       
+        std::string playerName;
+        std::string boardSide;  //top bottom left or right
+        bool active = true;
+        int numRubies = 0; //current count of rubies
+        std::string displayMode;
     public:
-        std::string getName(); // const return the name of the player.
+        Player();
+        Player(std::string name, std::string bs);
+        std::string getName() const; // const return the name of the player.
         void setActive(bool); // set the status of the player as active or inactive.
-        bool isActive(); // returns true if the player is active.
-        int getNRubies(); // const return the number of rubies won by this player.
+        bool isActive() const; // returns true if the player is active.
+        int getNRubies() const; // const return the number of rubies won by this player.
+        std::string getBoardSide() const; // const return the side of the board the player is on.
         void addReward( const Reward& ); // add a reward with a given number of rubies.
         void setDisplayMode(bool endOfGame);
 
@@ -24,6 +30,7 @@ class Player {
         // Joe Remember Doe: left (active)
         // Once endOfGame is true:
         // Joe Remember Doe:  3 rubies
+        friend std::ostream &operator<<(std::ostream &, const Player &);
 };
 
 #endif
