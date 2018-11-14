@@ -3,6 +3,7 @@
 
 #include "player.h"
 #include "reward.h"
+#include "config.h" //contains flags for testing
 Player::Player() {}
 Player::Player(std::string name, std::string bs) : playerName(name), boardSide(bs) {}
 std::string Player::getName() const {
@@ -49,3 +50,11 @@ std::ostream &operator<<(std::ostream &os, const Player &p){
     os << p.displayMode;
     return os;
 }
+#ifdef TEST_PLAYER_
+int main() {
+
+    std::cout << "Testing Player" << std::endl;
+
+    return 0;
+}
+#endif

@@ -4,7 +4,7 @@
 #include "game.h"
 #include "player.h"
 #include "card.h"
-
+#include "config.h" //contains flags for testing
 int Game::getRound() {
 
     return 0;
@@ -31,3 +31,11 @@ const Card* Game::getCurrentCard() {
 void Game::setCurrentCard( const Card*) {
 
 }
+#ifdef TEST_GAME_
+int main() {
+
+    std::cout << "Testing Game" << std::endl;
+
+    return 0;
+}
+#endif

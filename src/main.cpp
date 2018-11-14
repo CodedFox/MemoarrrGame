@@ -11,6 +11,7 @@
 #include "reward.h"
 #include "rewardDeck.h"
 #include "rules.h"
+#include "config.h" //contains flags for testing
 #if  !defined(TEST_BOARD_) && !defined(TEST_CARD_) &&  !defined(TEST_CARD_DECK_) &&  \
  !defined(TEST_DECK_) &&  !defined(TEST_EXPERT_BOARD_) &&  !defined(TEST_EXPERT_RULES_) && \
  !defined(TEST_GAME_) &&  !defined(TEST_PLAYER_) &&  !defined(TEST_REWARD_) && \

@@ -1,3 +1,5 @@
+#ifndef CONFIG_H
+#define CONFIG_H
 //file for testing configurations
 // Uncomment below to test the board
 //#define TEST_BOARD_
@@ -21,7 +23,7 @@
 //#define TEST_EXPERT_RULES_
 
 // Uncomment below to test the game class
-//#define TEST_GAME_
+#define TEST_GAME_
 
 // Uncomment below to test the player class
 //#define TEST_PLAYER_
@@ -34,3 +36,4 @@
 
 // Uncomment below to test the rules class
 //#define TEST_RULES_
+#endif
