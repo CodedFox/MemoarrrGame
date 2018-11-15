@@ -21,7 +21,7 @@ class Player {
         Player(std::string playerName, std::string side): name(playerName), boardSide(side) {};
         ~Player() {};
         inline std::string getName() const { return name; }; // const return the name of the player.
-        inline void setActive(bool status) { active = status; }; // set the status of the player as active or inactive.
+        inline void setActive(bool a) { active = a; }; // set the status of the player as active or inactive.
         inline bool isActive() const { return active; }; // returns true if the player is active.
         inline int getNRubies() const { return rubies; }; // const return the number of rubies won by this player.
         inline void addReward( const Reward& ) { }; // add a reward with a given number of rubies.
