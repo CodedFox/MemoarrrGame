@@ -2,8 +2,8 @@
 #include <string>
 
 #include "game.h"
-#include "player.h"
-#include "card.h"
+// #include "player.h"
+// #include "card.h"
 
 int Game::getRound() {
 

@@ -2,7 +2,7 @@
 #include <string>
 
 #include "rules.h"
-#include "game.h"
+// #include "game.h"
 
 bool Rules::isValid(const Game&) {
 
