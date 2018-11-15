@@ -1,33 +1,33 @@
-#include <iostream>
-#include <string>
+// #include <iostream>
+// #include <string>
 
-#include "player.h"
-#include "reward.h"
+// #include "player.h"
+// #include "reward.h"
 
-std::string Player::getName() {
+// std::string Player::getName() {
 
-    return "";
-}
+//     return "";
+// }
 
-void Player::setActive(bool) {
+// void Player::setActive(bool) {
 
-}
+// }
 
-bool Player::isActive() {
+// bool Player::isActive() {
 
-    return true;
-}
+//     return true;
+// }
 
-int Player::getNRubies() {
+// int Player::getNRubies() {
 
-    return 0;
-}
+//     return 0;
+// }
 
-void Player::addReward( const Reward& ) {
+// void Player::addReward( const Reward& ) {
 
-}
+// }
 
-void Player::setDisplayMode(bool endOfGame) {
+// void Player::setDisplayMode(bool endOfGame) {
 
-    endOfGame = false; // must be removed, inserted to solve variable not in use error
-}
+//     endOfGame = false; // must be removed, inserted to solve variable not in use error
+// }
