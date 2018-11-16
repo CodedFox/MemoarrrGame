@@ -7,7 +7,8 @@ class Card;
 // Design a class Deck<C> as an abstract factory class that will be used to create 
 // a set of cards or a set of rewards. The type parameter <C> is intended to be one 
 // of {Card|Reward}. The class will need the following methods:
-class Deck {
+
+class Deck{
     private:
 
 
