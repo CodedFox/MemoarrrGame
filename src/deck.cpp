@@ -3,18 +3,7 @@
 
 #include "deck.h"
 #include "config.h" //contains flags for testing
-void Deck::shuffle() {
 
-}
-
-// Card* Deck::getNext() {
-
-// }
-
-bool Deck::isEmpty() {
-
-    return true;
-}
 #ifdef TEST_DECK_
 int main() {
 

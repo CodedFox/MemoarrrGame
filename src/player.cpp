@@ -37,24 +37,24 @@ Player::numRubies += r.getNumRubies();
 }
 
 void Player::setDisplayMode(bool endOfGame) {
-    std::string str = this->playerName + ":";
-if (endOfGame) {
-    str += std::to_string(this->numRubies);
-    str += (this->numRubies>1?" rubies":" ruby");
-    }
-    else 
-    { std::string act = this->isActive() ? " (active)" : " (inactive)";
-            std::ostringstream stream;
-            stream<<Player::getSide();
-            std::string line = stream.str();
-            str = line + act;
-         }
-    Player::displayMode = str;
+    Player::displayMode = endOfGame;
 }
 
 std::ostream &operator<<(std::ostream &os, const Player &p){
+        std::string str = p.playerName + ":";
+if (p.displayMode) {
+    str += std::to_string(p.numRubies);
+    str += (p.numRubies>1?" rubies":" ruby");
+    }
+    else 
+    { std::string act = p.isActive() ? " (active)" : " (inactive)";
+            std::ostringstream stream;
+            stream<<p.getSide();
+            std::string line = stream.str();
+            str = line + act;
+         }
     
-    os << p.displayMode;
+    os << str;
     return os;
 }
 std::ostream & operator<<(std::ostream &os, const Player::Side &bs) {

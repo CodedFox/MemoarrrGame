@@ -16,7 +16,7 @@ class Player {
         Side boardSide;  //top bottom left or right
         bool active = true;
         int numRubies = 0; //current count of rubies
-        std::string displayMode;
+        bool displayMode = false;  //endofgame is false at the start
     public:
         Player();
         Player(std::string name, Side bs);
@@ -28,7 +28,7 @@ class Player {
         Side getSide() const;  // const return the side of the board the player is on
         void addReward( const Reward& ); // add a reward with a given number of rubies.
         void setDisplayMode(bool endOfGame);
-
+        
         // A player must be printable with the insertion operator cout << player. An example print out with endOfGame false could look as follows:
         // Joe Remember Doe: left (active)
         // Once endOfGame is true:

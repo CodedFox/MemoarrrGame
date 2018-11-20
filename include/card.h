@@ -8,8 +8,10 @@ class Card {
 // Note that Penguin and Red are enumeration values of type FaceAnimal and FaceBackground
 //enum class FaceAnimal : char {walrus='W', penguin='P', turtle='T', octopus='O', crab='C'};
 enum class FaceAnimal{walrus, penguin, turtle, octopus, crab};
+
 //enum class FaceBackground : char {red='r', green='g', purple='p', blue ='b', yellow='y'};
 enum class FaceBackground{red, green, purple, blue, yellow};
+
   friend std::ostream &operator<<(std::ostream &, const Card::FaceAnimal &);
   friend std::ostream &operator<<(std::ostream &, const Card::FaceBackground &);
   friend std::ostream &operator<<(std::ostream &, const Card &);
@@ -29,6 +31,9 @@ enum class FaceBackground{red, green, purple, blue, yellow};
         FaceBackground getFaceBackground() const{return background;};
         //overload function call
         std::string operator()(int);
+        //conversion operators to FaceAnimal and FaceBackground
+        inline operator FaceAnimal() {return animal;};
+        inline operator FaceBackground() {return background;};
         
 };
 

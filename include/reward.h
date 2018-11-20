@@ -12,6 +12,8 @@ class Reward {
         // An object of type Reward can not be copied or assigned and needs a private constructor 
         // but will give RewardDeck (see below) friend access.
         int getNumRubies() const; //return number of rubies for this reward
+        //int conversion operator
+        inline operator int(){ return numRubies;}
         friend std::ostream &operator<<(std::ostream &, const Reward &);
 };
 
