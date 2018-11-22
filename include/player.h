@@ -27,7 +27,7 @@ class Player {
         inline void setActive(bool a) { active = a; }; // set the status of the player as active or inactive.
         inline bool isActive() const { return active; }; // returns true if the player is active.
         inline int getNRubies() const { return rubies; }; // const return the number of rubies won by this player.
-        inline void addReward(const Reward&) { /* TO-DO */  }; // add a reward with a given number of rubies.
+        inline void addReward(const Reward& r) { rubies += r.getRubies(); }; // add a reward with a given number of rubies.
         inline void setDisplayMode(bool endOfGame) { endGame = endOfGame; };
         inline Side getSide() const { return boardSide; };
         inline void setSide(Side s) { boardSide = s; };
