@@ -32,38 +32,8 @@ class Player {
         inline Side getSide() const { return boardSide; };
         inline void setSide(Side s) { boardSide = s; };
 
-        friend std::ostream& operator<<(std::ostream & os, const Player & player);
+        friend std::ostream& operator<<(std::ostream & os, const Player & p);
         friend std::ostream& operator<<(std::ostream & os, const Side & s);
 };
-
-// A player must be printable with the insertion operator cout << player. An example print out with endOfGame false could look as follows:
-// Joe Remember Doe: left (active)
-// Once endOfGame is true:
-// Joe Remember Doe:  3 rubies
-std::ostream& operator<<(std::ostream & os, const Player & player) {
-    if (!player.endGame) {
-        os << player.name << ": " << player.boardSide;
-        
-        if (player.active) {
-            os << " (active)";
-        } else {
-            os << "inactive";
-        }
-    } else {
-        os << player.name << ": " << player.rubies << " rubies";
-    }
-    return os;
-}
-
-std::ostream & operator<<(std::ostream & os, const Player::Side & s) {
-    switch(s) {
-        case Player::Side::top: os << "top"; break;
-        case Player::Side::bottom: os << "bottom"; break;
-        case Player::Side::left: os << "left"; break;
-        case Player::Side::right: os << "right"; break;
-        default: os << "Error - Board Side"; break;
-    }
-    return os;
-}
 
 #endif
