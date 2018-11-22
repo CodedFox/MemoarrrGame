@@ -1,17 +1,17 @@
-#include <iostream>
-#include <string>
+// #include <iostream>
+// #include <string>
 
-#include "deck.h"
+// #include "deck.h"
 
-void Deck::shuffle() {
+// void Deck::shuffle() {
 
-}
+// }
 
 // Card* Deck::getNext() {
 
 // }
 
-bool Deck::isEmpty() {
+// bool Deck::isEmpty() {
 
-    return true;
-}
+//     return true;
+// }

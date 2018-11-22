@@ -2,7 +2,6 @@
 #define CARD_H
 
 #include <iostream>
-// #include <string>
 
     // Design a class Card which can take a face of one of the five possible animals and 
     // one of the five background colours. 
