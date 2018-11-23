@@ -14,20 +14,12 @@ class Board {
 
     private:
     //need to store Card and faceup indicator for each position
-        std::vector<std::vector<Card>> cardsOnBoard;
+        std::vector<std::vector<Card*>> cardsOnBoard;
         std::vector<std::vector<bool>> faceUpBoard;
     public:
-        //constructor in h file because of template
-        Board(){
-                                   
-            //to take  a card deck, shuffle it and then fill the board spots one by one until full
-            for(int row = 0; row < 5; ++row ){
-                for (int col = 0; col < 5; ++col){             
-                    //cardsOnBoard[row][col]=cd;
-                    faceUpBoard[row][col]=false;
-                }
-            }
-        };
+        
+        Board();
+        Board(CardDeck*);
         /* const returns true if the card at a given position is face up. Letter and Number are enumerations. 
         Throws an exception of type OutOfRange if an invalid Letter and Number combination was given. */
         bool isFaceUp( const Letter&, const Number& );
@@ -44,7 +36,7 @@ class Board {
         void reset();
 
         /*A board must be printable with the insertion operator cout << board. */
-        friend std::ostream &operator<<(std::ostream &, const Board &);
+        friend std::ostream &operator<<(std::ostream &, Board &);
 };
 
 #endif

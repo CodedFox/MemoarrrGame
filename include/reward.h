@@ -4,6 +4,7 @@
 // Design a class Reward which can take one of four possible values from 1 to 4 rubies. 
 // A reward must also be printable with the insertion operator cout << reward.
 class Reward {
+    friend class RewardDeck;
     private:
         int numRubies; //one of four possible values from 1 to 4 rubies
         Reward();

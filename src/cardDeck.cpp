@@ -13,8 +13,8 @@ CardDeck* CardDeck::make_CardDeck(){
                 for(int i = 0; i < 5; ++i){                
                 for(int j = 0; j < 5; ++j){                    
                     //add new card to cards vector
-                    Card::FaceAnimal fa = static_cast<Card::FaceAnimal>(i);
-                    Card::FaceBackground fb = static_cast<Card::FaceBackground>(j);                   
+                    FaceAnimal fa = static_cast<FaceAnimal>(i);
+                    FaceBackground fb = static_cast<FaceBackground>(j);                   
                     (*CardDeck::cardDeck).cards.push_back(Card(fa,fb));
                 }
             }
@@ -23,10 +23,9 @@ CardDeck* CardDeck::make_CardDeck(){
 //to use elsewhere //to use CardDeck::make_CardDeck()->getNext();
 #ifdef TEST_CARD_DECK_
 int main() {
-    std::cout << CardDeck::make_CardDeck()->getNext() << std::endl;
-    std::cout << CardDeck::make_CardDeck()->getNext() << std::endl;
-    std::cout << CardDeck::make_CardDeck()->getNext() << std::endl;
-    std::cout << CardDeck::make_CardDeck()->getNext() << std::endl;
+    for(int i =0; i<25;++i){
+    std::cout <<*(CardDeck::make_CardDeck()->getNext()) << std::endl;}
+    
     std::cout << "Testing Card Deck" << std::endl;
 
     return 0;

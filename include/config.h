@@ -2,13 +2,13 @@
 #define CONFIG_H
 //file for testing configurations
 // Uncomment below to test the board
-//#define TEST_BOARD_
+#define TEST_BOARD_
 
 // Uncomment below to test the reward deck
 //#define TEST_REWARD_DECK_
 
 // Uncomment below to test the card deck
-#define TEST_CARD_DECK_
+//#define TEST_CARD_DECK_
 
 // Uncomment below to test the card class
 //#define TEST_CARD_
