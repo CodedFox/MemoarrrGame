@@ -3,6 +3,7 @@
 
 #include "board.h"
 #include "config.h" //contains flags for testing
+//Board(CardDeck cd){}
 bool Board::isFaceUp( const Letter&, const Number& ) {
 
     return true;

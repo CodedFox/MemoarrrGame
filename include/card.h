@@ -15,16 +15,17 @@ enum class FaceBackground{red, green, purple, blue, yellow};
   friend std::ostream &operator<<(std::ostream &, const Card::FaceAnimal &);
   friend std::ostream &operator<<(std::ostream &, const Card::FaceBackground &);
   friend std::ostream &operator<<(std::ostream &, const Card &);
-
+  friend class CardDeck;
     private:
         FaceAnimal animal;
         FaceBackground background;
         int numRows{3};
-       
+        
         // An object of type Card can not be copied or assigned and needs a private constructor 
         // but will give CardDeck friend access.
         Card();
         Card(FaceAnimal fa, FaceBackground fb) : animal(fa), background(fb){};
+        
     public:
         int getNRows() const {return numRows;};
         FaceAnimal getFaceAnimal() const {return animal;};
