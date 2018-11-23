@@ -9,7 +9,7 @@ RewardDeck* RewardDeck::rewardDeck = nullptr;
 RewardDeck* RewardDeck::make_RewardDeck(){
             if (!rewardDeck){
                //we need to make a deck since it hasn't been made yet
-               rewardDeck = new RewardDeck;
+               rewardDeck = new RewardDeck();
            } 
            return rewardDeck;}
  // is the only public method for RewardDeck. The method has to always return the same RewardDeck during the execution of the program.

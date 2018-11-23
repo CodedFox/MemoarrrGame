@@ -2,7 +2,7 @@
 #define BOARD_H
 #include "card.h"
 
-#include "carddeck.h"
+#include "cardDeck.h"
 class Card;
 
 

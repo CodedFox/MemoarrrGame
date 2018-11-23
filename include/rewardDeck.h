@@ -3,18 +3,15 @@
 #include "deck.h"
 #include "reward.h"
 class Reward;
-//template <>
-//class Deck<Reward>;
 // Design a class RewardDeck derived from Deck<Reward> with the corresponding properties to CardDeck.
-//template<typename Reward>
 class RewardDeck : public Deck<Reward> {
     private:
         static RewardDeck* rewardDeck;
-        RewardDeck(){         
+        RewardDeck(){};         
            //for(int i = 0; i < 3; ++i){
                 //add new reward to cards vector
            //rewardDeck->cards.emplace(Reward::Reward(1));
-           }
+           
 
            //cards.emplace(Reward(2));
            //cards.emplace(Reward(2));

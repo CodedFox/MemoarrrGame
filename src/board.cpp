@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-
+#include "deck.h"
 #include "board.h"
 #include "config.h" //contains flags for testing
 //Board(CardDeck cd){}

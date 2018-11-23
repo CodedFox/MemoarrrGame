@@ -8,7 +8,7 @@
 //#define TEST_REWARD_DECK_
 
 // Uncomment below to test the card deck
-//#define TEST_CARD_DECK_
+#define TEST_CARD_DECK_
 
 // Uncomment below to test the card class
 //#define TEST_CARD_
