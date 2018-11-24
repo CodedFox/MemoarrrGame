@@ -9,7 +9,7 @@ class Reward;
 // Design a class Player which combines all information for a player including name, 
 // side of the board (top, bottom, left or right) and has the current count of rubies.
 class Player {
-    enum class Side{top, bottom, left, right};
+    public: enum class Side{top, bottom, left, right};
      friend std::ostream &operator<<(std::ostream &, const Side &);
     private:       
         std::string playerName;
@@ -17,7 +17,7 @@ class Player {
         bool active = true;
         int numRubies = 0; //current count of rubies
         bool displayMode = false;  //endofgame is false at the start
-    public:
+    public:        
         Player();
         Player(std::string name, Side bs);
         std::string getName() const; // const return the name of the player.

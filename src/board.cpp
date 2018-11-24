@@ -15,7 +15,7 @@ Board::Board(CardDeck* cd){
             for(int row = 0; row < 5; ++row ){                             
                 for (int col = 0; col < 5; ++col){  
                     if (cd->isEmpty()){throw std::out_of_range ("No More Cards");}
-                    cardsOnBoard[row].push_back(std::make_pair(cd->getNext(),true));                    
+                    cardsOnBoard[row].push_back(std::make_pair(cd->getNext(),false));                    
                 }
 
             }}

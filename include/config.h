@@ -2,7 +2,7 @@
 #define CONFIG_H
 //file for testing configurations
 // Uncomment below to test the board
-#define TEST_BOARD_
+//#define TEST_BOARD_
 
 // Uncomment below to test the reward deck
 //#define TEST_REWARD_DECK_
@@ -23,7 +23,7 @@
 //#define TEST_EXPERT_RULES_
 
 // Uncomment below to test the game class
-//#define TEST_GAME_
+#define TEST_GAME_
 
 // Uncomment below to test the player class
 //#define TEST_PLAYER_
