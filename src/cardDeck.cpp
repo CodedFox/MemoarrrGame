@@ -16,7 +16,6 @@ CardDeck& CardDeck::make_CardDeck() {
                 (*cd).cards.push_back(Card(static_cast<FaceAnimal>(i), static_cast<FaceBackground>(j)));
             }
         }
-        (*cd).shuffle();
     } else {
         throw std::runtime_error( "Card Deck already created." );
     }
