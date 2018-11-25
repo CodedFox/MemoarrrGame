@@ -9,7 +9,7 @@ class Reward {
 
         Reward() {};
         Reward(int r): rubies(r) {};
-        ~Reward() {};
+        // ~Reward() {};
 
     public:
         // An object of type Reward can not be copied or assigned and needs a private constructor 
@@ -17,6 +17,8 @@ class Reward {
         inline int getRubies() const { return rubies; }
         friend std::ostream& operator<<(std::ostream & os, const Reward & r);
         inline operator int() const { return rubies; }
+
+        friend class RewardDeck;
 };
 
 #endif
