@@ -4,25 +4,25 @@
 
 #include "card.h"
 
-std::ostream & operator<<(std::ostream & os, const Card::FaceAnimal & fa) {
+std::ostream & operator<<(std::ostream & os, const FaceAnimal & fa) {
     switch(fa) {
-        case Card::FaceAnimal::Crab: os << "C"; break;
-        case Card::FaceAnimal::Penguin: os << "P"; break;
-        case Card::FaceAnimal::Octopus: os << "O"; break;
-        case Card::FaceAnimal::Turtle: os << "T"; break;
-        case Card::FaceAnimal::Walrus: os << "W"; break;
+        case FaceAnimal::Crab: os << "C"; break;
+        case FaceAnimal::Penguin: os << "P"; break;
+        case FaceAnimal::Octopus: os << "O"; break;
+        case FaceAnimal::Turtle: os << "T"; break;
+        case FaceAnimal::Walrus: os << "W"; break;
         default: os << "Error - Face Animal"; break;
     }
     return os;
 }
 
-std::ostream & operator<<(std::ostream & os, const Card::FaceBackground & fb) {
+std::ostream & operator<<(std::ostream & os, const FaceBackground & fb) {
     switch(fb) {
-        case Card::FaceBackground::Red: os << "r"; break;
-        case Card::FaceBackground::Green: os << "g"; break;
-        case Card::FaceBackground::Purple: os << "p"; break;
-        case Card::FaceBackground::Blue: os << "b"; break;
-        case Card::FaceBackground::Yellow: os << "y"; break;
+        case FaceBackground::Red: os << "r"; break;
+        case FaceBackground::Green: os << "g"; break;
+        case FaceBackground::Purple: os << "p"; break;
+        case FaceBackground::Blue: os << "b"; break;
+        case FaceBackground::Yellow: os << "y"; break;
         default: os << "Error - Face Background"; break;
     }
     return os;
