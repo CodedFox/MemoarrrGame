@@ -23,10 +23,10 @@
 //#define TEST_EXPERT_RULES_
 
 // Uncomment below to test the game class
-#define TEST_GAME_
+//#define TEST_GAME_
 
 // Uncomment below to test the player class
-//#define TEST_PLAYER_
+#define TEST_PLAYER_
 
 // Uncomment below to test the reward class
 //#define TEST_REWARD_

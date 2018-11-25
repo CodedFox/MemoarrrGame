@@ -11,7 +11,6 @@ previousCard = nullptr;
 currentCard = nullptr;
 }
 int Game::getRound() {
-
     return round;
 }
 void Game::setRound(int rnd){
@@ -23,8 +22,9 @@ Game::playerMap.insert(std::make_pair(player.getSide(), player));
 
 Player& Game::getPlayer(Player::Side side) {
     auto it = Game::playerMap.find(side);
-//  if (it != Game::playerMap.end())
+  //if (it != Game::playerMap.end()){
   return (*it).second;
+  
 }
 
 const Card* Game::getPreviousCard() {
@@ -45,11 +45,19 @@ Card* Game::getCard( const Board::Letter& row, const Board::Number& col){
     return Game::board.getCard(row, col);
 } //which calls the corresponding method in Board
 void Game::setCard( const Board::Letter& row, const Board::Number& col, Card* card ){
-    Game::board.setCard(row,col, card);
+    Game::board.setCard(row, col, card);
 } //which calls the corresponding method in Board
 // A game must be printable with the insertion operator cout << game. It should display the board and all players.
 std::ostream &operator<<(std::ostream & os, Game & g){
-    os<<g.board;
+   
+    os<<g.getPlayer(Player::Side::top);
+    
+    os<<g.getPlayer(Player::Side::left);
+    os<< g.board; 
+    
+    os<< g.getPlayer(Player::Side::right);
+    
+    os<<g.getPlayer(Player::Side::bottom);
     return os;
 }
 #ifdef TEST_GAME_

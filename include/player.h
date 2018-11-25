@@ -15,15 +15,17 @@ class Player {
         std::string playerName;
         Side boardSide;  //top bottom left or right
         bool active = true;
-        int numRubies = 0; //current count of rubies
+        int numRubies = 0; //current count of rubies    
         bool displayMode = false;  //endofgame is false at the start
-    public:        
+    public:
+                
         Player();
         Player(std::string name, Side bs);
         std::string getName() const; // const return the name of the player.
         void setActive(bool); // set the status of the player as active or inactive.
         bool isActive() const; // returns true if the player is active.
         int getNRubies() const; // const return the number of rubies won by this player.
+        void setNRubies(int n);
         void setSide(Side);
         Side getSide() const;  // const return the side of the board the player is on
         void addReward( const Reward& ); // add a reward with a given number of rubies.

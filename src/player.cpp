@@ -28,6 +28,10 @@ int Player::getNRubies() const {
 
     return Player::numRubies;
 }
+void Player::setNRubies(int n) {
+
+    Player::numRubies = n;
+}
 Player::Side Player::getSide() const {
 
     return Player::boardSide; 
@@ -41,17 +45,17 @@ void Player::setDisplayMode(bool endOfGame) {
 }
 
 std::ostream &operator<<(std::ostream &os, const Player &p){
-        std::string str = p.playerName + ":";
+        std::string str = p.playerName + ": ";
 if (p.displayMode) {
     str += std::to_string(p.numRubies);
-    str += (p.numRubies>1?" rubies":" ruby");
+    str += (p.numRubies!=1?" rubies":" ruby");
     }
     else 
     { std::string act = p.isActive() ? " (active)" : " (inactive)";
             std::ostringstream stream;
             stream<<p.getSide();
             std::string line = stream.str();
-            str = line + act;
+            str += line + act;
          }
     
     os << str;
@@ -71,8 +75,21 @@ std::ostream & operator<<(std::ostream &os, const Player::Side &bs) {
 }
 #ifdef TEST_PLAYER_
 int main() {
+Player p("Bob",Player::Side::left);
 
-    std::cout << "Testing Player" << std::endl;
+std::cout << p.getName() << std::endl;
+std::cout << p.getNRubies() << std::endl;
+std::cout << p.getSide() << std::endl;
+std::cout << p.isActive() << std::endl;
+std::cout << p << std::endl;
+p.setDisplayMode(true);
+std::cout << p << std::endl;
+p.setNRubies(3);
+std::cout << p << std::endl;
+p.setNRubies(1);
+std::cout << p << std::endl;
+
+std::cout << "Testing Player" << std::endl;
 
     return 0;
 }

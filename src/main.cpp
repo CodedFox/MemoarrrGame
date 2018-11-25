@@ -19,8 +19,27 @@
 
 int main() {
 
-    std::cout << "Memoarrr! New Game!" << std::endl;
+   std::cout << "Memoarrr! New Game!" << std::endl;
 
+  CardDeck* cd = CardDeck::make_CardDeck();
+  
+  Board b(cd);
+    std::cout << b << std::endl;
+    b.reset();
+    std::cout << b << std::endl;
+    b.turnFaceUp(Board::A,Board::_2);
+    std::cout << b << std::endl;
+    b.turnFaceUp(Board::C,Board::_3);
+    std::cout << b << std::endl;
+    b.turnFaceDown(Board::C,Board::_3);
+    b.turnFaceDown(Board::A,Board::_2);
+    std::cout << b << std::endl;
+    bool tmp = b.isFaceUp(Board::A,Board::_2);
+    std::cout << "All done " << tmp  << std::endl;
+
+
+
+    return 0;
 // Ask player to choose game version, number of players and names of players.
 // Create the corresponding players, rules, cards and board for the game.
 // Display game (will show board and all players)
