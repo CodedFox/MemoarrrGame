@@ -3,25 +3,33 @@
 
 #include <vector>
 #include <algorithm>
+#include <random>
 
 // Design a class Deck<C> as an abstract factory class that will be used to create 
 // a set of cards or a set of rewards. The type parameter <C> is intended to be one 
 // of {Card|Reward}. The class will need the following methods:
 template <typename C>
 class Deck {
-    private:
+    protected:
         std::vector<C> cards;
-        typename std::vector<C>::iterator it; //always points to next elem
-
+        unsigned int index = 0;
+        
     public:
-        inline void shuffle() { std::random_shuffle(cards.begin(), cards.end()); }; // shuffles the cards in the deck. You must use the function std::random_shuffle from the standard template library.
+        Deck() {};
+        void shuffle(); // shuffles the cards in the deck. You must use the function std::random_shuffle from the standard template library.
         bool isEmpty() const; // const returns true if the deck is empty.
         C* getNext(); // returns the next card or reward by pointer. Will return nullptr if no more cards or rewards are available.
 };
 
 template <typename C>
-bool isEmpty() {
-    if(Deck<C>::it == Deck<C>::cards.end()+1) {
+void Deck<C>::shuffle() {
+    auto rng = std::default_random_engine {};
+    std::shuffle(cards.begin(), cards.end(), rng);
+}
+
+template <typename C>
+bool Deck<C>::isEmpty() const {
+    if(index == cards.size()){
         return true;
     } else {
         return false;
@@ -29,9 +37,9 @@ bool isEmpty() {
 }
 
 template <typename C>
-C* getNext() {
-    if (!Deck<C>::isEmpty()){
-        return &Deck<C>::it++;
+C* Deck<C>::getNext() {
+    if (!isEmpty()) {
+        return &cards[index++];
     } else {
         return nullptr;
     }
