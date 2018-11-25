@@ -11,14 +11,14 @@ RewardDeck* RewardDeck::make_RewardDeck(){
                //we need to make a deck since it hasn't been made yet
                rewardDeck = new RewardDeck();
             for(int i = 0; i < 3; ++i){
-                //add new reward to cards vector
-           
-           (*RewardDeck::rewardDeck).cards.push_back(Reward(1));}
-(*RewardDeck::rewardDeck).cards.push_back(Reward(2));
-(*RewardDeck::rewardDeck).cards.push_back(Reward(2));
-(*RewardDeck::rewardDeck).cards.push_back(Reward(3));
-(*RewardDeck::rewardDeck).cards.push_back(Reward(4));
- 
+                //add new reward to cards vector          
+            (*RewardDeck::rewardDeck).cards.push_back(Reward(1));
+            }
+            (*RewardDeck::rewardDeck).cards.push_back(Reward(2));
+            (*RewardDeck::rewardDeck).cards.push_back(Reward(2));
+            (*RewardDeck::rewardDeck).cards.push_back(Reward(3));
+            (*RewardDeck::rewardDeck).cards.push_back(Reward(4));
+            rewardDeck->shuffle();
            } 
            return rewardDeck;}
  // is the only public method for RewardDeck. The method has to always return the same RewardDeck during the execution of the program.

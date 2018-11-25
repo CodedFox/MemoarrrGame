@@ -7,7 +7,7 @@ class Game;
 // Design a class Rules which has the main purpose to check if a selection of a player is valid.
 class Rules {
     private:
-        
+             
 
     public:
         bool isValid(const Game&); // returns true is previous and current card match; false otherwise.

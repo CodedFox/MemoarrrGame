@@ -9,9 +9,9 @@ Board::Board(){}
  
 //The constructor for board should throw and Exception of type NoMoreCards if there are no more cards available to construct a board.
 Board::Board(CardDeck* cd){                                
-            //to take a card deck, shuffle it and then fill the board spots one by one until full
+            //to take a card deck then fill the board spots one by one until full
             cardsOnBoard.resize(5);
-            cd->shuffle();
+            
             for(int row = 0; row < 5; ++row ){                             
                 for (int col = 0; col < 5; ++col){  
                     if (cd->isEmpty()){throw std::out_of_range ("No More Cards");}
@@ -121,6 +121,32 @@ std::ostream & operator<<(std::ostream &os, Board &b) {
               
     os << "   1 " << "  2 " << "  3 " << "  4 " << "  5 "<< std::endl;    
     return os;
+}
+Board::Letter Board::convertStrToLetter(std::string str){
+    Board::Letter letter;
+    char cstr = str[0];
+    switch (cstr) {     
+    case 'A': case 'a': letter = Board::Letter::A; break;
+    case 'B': case 'b': letter = Board::Letter::B; break;
+    case 'C': case 'c': letter = Board::Letter::C; break;
+    case 'D': case 'd': letter = Board::Letter::D; break;
+    case 'E': case 'e': letter = Board::Letter::E; break;
+    default: letter = Board::Letter::A; break;
+  }
+    return letter;
+}
+
+Board::Number Board::convertIntToNumber(int i){
+    Board::Number number;
+    switch (i) {     
+    case 1: number = Board::Number::_1; break;
+    case 2: number = Board::Number::_2; break;
+    case 3: number = Board::Number::_3; break;
+    case 4: number = Board::Number::_4; break;
+    case 5: number = Board::Number::_5; break;
+    default: number = Board::Number::_1; break;
+  }
+    return number;
 }
 
 #ifdef TEST_BOARD_

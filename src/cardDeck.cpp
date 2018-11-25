@@ -18,6 +18,7 @@ CardDeck* CardDeck::make_CardDeck(){
                     (*CardDeck::cardDeck).cards.push_back(Card(fa,fb));
                 }
             }
+           cardDeck->shuffle();
            } 
            return cardDeck;} // is the only public method for CardDeck. The method has to always return the same CardDeck during the execution of the program.
 //to use elsewhere //to use CardDeck::make_CardDeck()->getNext();

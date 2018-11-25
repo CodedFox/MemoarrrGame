@@ -7,6 +7,7 @@
 // returns true is previous and current card match; false otherwise.
 bool Rules::isValid(const Game& g) {
     Game& game = const_cast<Game&>(g);
+    //valid if either animal or background matches
     if (game.getCurrentCard()->getFaceBackground()==game.getPreviousCard()->getFaceBackground()) return true;
     if (game.getCurrentCard()->getFaceAnimal()==game.getPreviousCard()->getFaceAnimal()) return true;
     return false;

@@ -19,10 +19,12 @@ class Game {
         Card* previousCard;
         Card* currentCard;
         std::pair<Board::Letter, Board::Number> blockedPosition; //used for expert mode with walrus card block   
-        bool expertMode;     
+        bool expertBoard;  //changes print of board
+        bool expertRules;  //changes game play
+        
     public:
         Game();
-        Game(CardDeck*, bool);    
+        Game(CardDeck*, bool, bool);    
         int getRound(); // returns a number between 0 and 6 corresponding to the current round of the game
         void setRound(int);
         void addPlayer( const Player& ); // which adds a Player to this game.
@@ -33,6 +35,7 @@ class Game {
         Card* getCard( const Board::Letter&, const Board::Number& ); //which calls the corresponding method in Board
         void setCard( const Board::Letter&, const Board::Number&, Card* ); //which calls the corresponding method in Board
         // A game must be printable with the insertion operator cout << game. It should display the board and all players.
+        void reveal3Cards(Player::Side);
         friend std::ostream &operator<<(std::ostream &, Game &);
 };
 

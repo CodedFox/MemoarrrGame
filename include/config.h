@@ -26,7 +26,7 @@
 //#define TEST_GAME_
 
 // Uncomment below to test the player class
-#define TEST_PLAYER_
+//#define TEST_PLAYER_
 
 // Uncomment below to test the reward class
 //#define TEST_REWARD_
