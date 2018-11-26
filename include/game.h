@@ -19,6 +19,7 @@ class Game {
     private:
         int round = 0;
         std::map<Side, Player> players;
+        std::map<Side, Player>::iterator currentPlayer;
         Board board;
         Card * previousCard = nullptr;
         Card * currentCard = nullptr;
@@ -28,6 +29,8 @@ class Game {
         Game(CardDeck * cd): board(cd) {};
         inline int getRound() const { return round; }; // returns a number between 0 and 6 corresponding to the current round of the game
         void addPlayer( const std::string ); // which adds a Player to this game.
+        inline std::map<Side, Player> getPlayers() const { return players; };
+        inline const std::map<Side, Player>::iterator getCurrentPlayer() const { return currentPlayer; };
         inline Player& getPlayer( Side s ) { return players[s]; } ;
         inline const Card* getPreviousCard() const { return previousCard; };
         inline const Card* getCurrentCard() const { return currentCard; };

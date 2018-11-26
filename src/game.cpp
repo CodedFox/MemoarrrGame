@@ -10,6 +10,9 @@ void Game::addPlayer( const std::string name) {
     if (players.size() < 4) {
         // players.insert(std::make_pair(p.getSide(), p));
         players.insert(std::make_pair(Side(players.size()), Player(name, Side(players.size()))));
+        if (players.size() == 1) {
+            currentPlayer = players.begin();
+        }
     } else {
         throw "Maximum amount of players reached!";
     }
