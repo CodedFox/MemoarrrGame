@@ -8,10 +8,9 @@ class Reward;
 
 // Design a class Player which combines all information for a player including name, 
 // side of the board (top, bottom, left or right) and has the current count of rubies.
-class Player {
-    public:
-        enum class Side {top, bottom, left, right};
+enum class Side {top, bottom, left, right};
 
+class Player {
     private:
         std::string name;
         Side boardSide; // top, bottom, left, right
