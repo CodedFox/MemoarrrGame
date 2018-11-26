@@ -59,13 +59,13 @@ void Game::setRound(int rnd){
     board.reset();
     previousCard = nullptr;
     currentCard = nullptr;
-    itCurrentPlayer = Game::playerMap.begin();
+    int adjust = (rnd % Game::playerMap.size());
+    itCurrentPlayer = std::next(Game::playerMap.begin(), adjust); // so that same player doesn't start every round    
     round = rnd;
 }
 void Game::addPlayer( const Player& player) {
 Game::playerMap.insert(std::make_pair(player.getSide(), player));
-//if(itCurrentPlayer == Game::playerMap.end())
-//    itCurrentPlayer = Game::playerMap.begin();
+
 }
 
 Player& Game::getPlayer(Player::Side side) {
@@ -121,7 +121,12 @@ std::ostream &operator<<(std::ostream & os, Game & g){
    for(auto element : g.playerMap){
        os<< element.second <<std::endl;
    }
-    os<< g.board; 
+   if(g.expertBoard){
+    //print expert display
+
+   } else {
+    //print regular display
+    os<< g.board; }
    
     return os;
 }
@@ -159,7 +164,13 @@ void Game::printOutGameOver(){
        element.setDisplayMode(true);
        std::cout<<element<<std::endl;       
    }
-       std::cout<<v.back().getName() << " is the winner!" << std::endl;       
+   //check for ties
+   if ( v[v.size() - 2].getNRubies()==v[v.size() - 1].getNRubies()){
+    //tie
+    std::cout<<v[v.size() - 2].getName() << " and " << v[v.size() - 1].getName() << " are tied so both players have won!" << std::endl;    
+       } else {
+    std::cout<<v.back().getName() << " is the winner!" << std::endl;
+       }       
 }
 
 
