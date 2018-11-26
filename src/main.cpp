@@ -120,6 +120,7 @@ while(!rules.gameOver(game)){
            } 
            
            game.setCard(row, col, game.getCard(row, col));
+           game.addSelection(row,col);
            //TODO more logic here top play game
            if (!rules.isValid(game)){
             //# player is no longer part of the current round

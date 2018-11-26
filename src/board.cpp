@@ -92,7 +92,7 @@ std::ostream & operator<<(std::ostream &os, Board &b) {
                 character++;
                 } 
                 if(!(row ==2 && col ==2)){ 
-                    //check we're not art middle spot              
+                    //check we're not at middle spot              
                 if(b.cardsOnBoard[row][col].second){
                         //card is face up 
                     topString << (*(b.cardsOnBoard[row][col].first))(0)<<" ";

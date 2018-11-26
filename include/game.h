@@ -22,6 +22,7 @@ class Game {
         bool expertBoard;  //changes print of board
         bool expertRules;  //changes game play        
         std::map<Player::Side, Player>::iterator itCurrentPlayer;
+        std::vector<std::pair<Board::Letter, Board::Number> > orderSelected;  //used for printing expert display mode, need to keep track of order
     public:
         Game();
         Game(CardDeck*, bool, bool);
@@ -40,12 +41,15 @@ class Game {
         friend std::ostream &operator<<(std::ostream &, Game &);
         void setExpertRules(bool);
         bool getExpertRules();
+        void setExpertBoard(bool);
+        bool getExpertBoard();
         void setItCurrentPlayer(std::map<Player::Side, Player>::iterator);
         const std::map<Player::Side, Player>::iterator getItCurrentPlayer();
         void setCurrentPlayer(const Player&);
         bool validSelection(const Board::Letter&, const Board::Number&); //check if board spot can be chosen  
         void printOutGameOver(); //print out list of players and overall winner
         static bool compare(Player, Player); //to sort by num rubies at end
+        void addSelection(Board::Letter row, Board::Number col); //add selection to orderSelected for expert display mode
 };
 
 #endif
