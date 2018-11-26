@@ -48,29 +48,7 @@ do {
 if (answer == 'y' || answer =='Y') return true;
 return false;
 }
-std::string getSelectedRow(){
-      std::string str;
-    std::regex regex_pattern("[a-eA-E]");
-    do
-    {
-        std::cout << "Please choose a row (A-E):" ;
-        std::cin >> str;
-    }while(!std::regex_match(str,regex_pattern));
 
-    return str;
-
-}
-int getSelectedCol(){
-      std::string str;
-    std::regex regex_pattern("[1-5]");
-    do
-    {
-        std::cout << "Please choose a column (1-5):" ;
-        std::cin >> str;
-    }while(!std::regex_match(str,regex_pattern));
-
-    return stoi(str);  //subtract 1 because 0-indexed array
-}
 int main() {
    
    std::cout << "Welcome to Memoarrr!" << std::endl;  
@@ -111,27 +89,32 @@ while(!rules.gameOver(game)){
            
            std::cout<< (*game.getItCurrentPlayer()).second.getName() << " it is your turn" << std::endl;
            
-           Board::Letter row = Board::convertStrToLetter(getSelectedRow());
-           Board::Number col = Board::convertIntToNumber(getSelectedCol());
+           Board::Letter row = Board::convertStrToLetter(Game::getSelectedRow());
+           Board::Number col = Board::convertIntToNumber(Game::getSelectedCol());
            while (!game.validSelection(row,col)){              
                std::cout<<"You can't choose that spot"<< std::endl;
-                row = Board::convertStrToLetter(getSelectedRow());
-                col = Board::convertIntToNumber(getSelectedCol());
+                row = Board::convertStrToLetter(Game::getSelectedRow());
+                col = Board::convertIntToNumber(Game::getSelectedCol());
            } 
-           
+           game.setBlockedPosition(Board::Letter::C, Board::Number::_3); //reset after valid potentially blocked selection made but before next walrus card applied
            game.setCard(row, col, game.getCard(row, col));
            game.addSelection(row,col);
+           //  display game
+            std::cout<<game<<std::endl; 
            //TODO more logic here top play game
            if (!rules.isValid(game)){
             //# player is no longer part of the current round
             //current player becomes inactive
             std::cout << "You're out of this round " << (*game.getItCurrentPlayer()).second.getName() << std::endl;
                 (*game.getItCurrentPlayer()).second.setActive(false);                    
+            } else if (game.getExpertRules() && !game.firstTurn()){
+                //move is valid and expert rules are selected, need to deal with octopus, penguin, walrus
+                //crab and turtle are handled in getNextPlayer                
+                rules.applyExpertRules(game);
             }
              
         game.setCurrentPlayer(rules.getNextPlayer(game));    
-    //  display game
-        std::cout<<game<<std::endl; 
+    
     }
     //  Remaining active player receives reward (rubies)
        (*game.getItCurrentPlayer()).second.addReward(*(rd->getNext()));

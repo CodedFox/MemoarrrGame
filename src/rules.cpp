@@ -30,6 +30,10 @@ bool Rules::roundOver(const Game& g) {
 const Player& Rules::getNextPlayer(const Game& g){
     Game& game = const_cast<Game&>(g);
     auto next = game.getItCurrentPlayer();
+    if (game.getExpertRules() && !game.firstTurn() && isValid(game) && game.getCurrentCard()->getFaceAnimal()==FaceAnimal::crab){
+        //current player must take another turn for crab card with expert rules
+        return (*next).second;
+    }
     //advance iterator and correct if at end of list
     if( ++next == game.getPlayerMap().end()){
             next = game.getPlayerMap().begin();
@@ -39,7 +43,7 @@ const Player& Rules::getNextPlayer(const Game& g){
             next = game.getPlayerMap().begin();
         } 
     }
-    if (game.getExpertRules() && game.getCurrentCard()->getFaceAnimal()==FaceAnimal::turtle){
+    if (game.getExpertRules() && !game.firstTurn() && isValid(game) && game.getCurrentCard()->getFaceAnimal()==FaceAnimal::turtle){
     //next player skipped if turtle chosen in expert rules
         //advance iterator again and correct if at end of list
         if( ++next == game.getPlayerMap().end()){
@@ -53,6 +57,50 @@ const Player& Rules::getNextPlayer(const Game& g){
     } 
 
     return (*next).second;
+}
+
+void Rules::applyExpertRules(Game& game){
+    
+    if (game.getCurrentCard()->getFaceAnimal()==FaceAnimal::walrus){
+    //handle walrus -- block a card for next player
+         std::cout<< (*game.getItCurrentPlayer()).second.getName() << " choose a spot to block" << std::endl;           
+           Board::Letter row = Board::convertStrToLetter(Game::getSelectedRow());
+           Board::Number col = Board::convertIntToNumber(Game::getSelectedCol());
+           while (!game.validToBlock(row,col)){              
+               std::cout<<"You can't choose that spot"<< std::endl;
+                row = Board::convertStrToLetter(Game::getSelectedRow());
+                col = Board::convertIntToNumber(Game::getSelectedCol());
+           }
+           game.setBlockedPosition(row, col);
+    } else if (game.getCurrentCard()->getFaceAnimal()==FaceAnimal::penguin){
+    //handle penguin -- turn a card face down
+           std::cout<< (*game.getItCurrentPlayer()).second.getName() << " choose a spot to turn face down" << std::endl;           
+           Board::Letter row = Board::convertStrToLetter(Game::getSelectedRow());
+           Board::Number col = Board::convertIntToNumber(Game::getSelectedCol());
+           while (!game.validToTurnFaceDown(row,col)){              
+               std::cout<<"You can't choose that spot"<< std::endl;
+                row = Board::convertStrToLetter(Game::getSelectedRow());
+                col = Board::convertIntToNumber(Game::getSelectedCol());
+           }
+           game.turnFaceDown(row, col);
+           //  display game after turn face down
+            std::cout<<game<<std::endl; 
+           
+    } else if (game.getCurrentCard()->getFaceAnimal()==FaceAnimal::octopus){
+    // handle octopus -- swap a card in the 4-neighbourhood
+           std::cout<< (*game.getItCurrentPlayer()).second.getName() << " choose a spot to swap with the current card" << std::endl;           
+           Board::Letter row = Board::convertStrToLetter(Game::getSelectedRow());
+           Board::Number col = Board::convertIntToNumber(Game::getSelectedCol());
+           while (!game.validToSwap(row,col)){              
+               std::cout<<"You can't choose that spot"<< std::endl;
+                row = Board::convertStrToLetter(Game::getSelectedRow());
+                col = Board::convertIntToNumber(Game::getSelectedCol());
+           }
+        game.swapCards(row,col);
+        //  display game after swap
+            std::cout<<game<<std::endl; 
+    }
+    
 }
 #ifdef TEST_RULES_
 int main() {

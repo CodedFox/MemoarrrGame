@@ -22,7 +22,7 @@ class Game {
         bool expertBoard;  //changes print of board
         bool expertRules;  //changes game play        
         std::map<Player::Side, Player>::iterator itCurrentPlayer;
-        std::vector<std::pair<Board::Letter, Board::Number> > orderSelected;  //used for printing expert display mode, need to keep track of order
+        std::vector<std::pair<Board::Letter, Board::Number> > orderSelected;  //used for printing expert display mode, need to keep track of order for expert rules too
     public:
         Game();
         Game(CardDeck*, bool, bool);
@@ -43,13 +43,24 @@ class Game {
         bool getExpertRules();
         void setExpertBoard(bool);
         bool getExpertBoard();
+        void setBlockedPosition(const Board::Letter&, const Board::Number&);
+        std::pair<Board::Letter, Board::Number> getBlockedPosition();
         void setItCurrentPlayer(std::map<Player::Side, Player>::iterator);
         const std::map<Player::Side, Player>::iterator getItCurrentPlayer();
         void setCurrentPlayer(const Player&);
         bool validSelection(const Board::Letter&, const Board::Number&); //check if board spot can be chosen  
+        bool validToBlock(const Board::Letter& , const Board::Number& ); //check if spot can be blocked
+        bool validToTurnFaceDown(const Board::Letter& , const Board::Number& ); //check if spot can be turned face down
+        bool validToSwap(const Board::Letter& row, const Board::Number& col); //check if spot is valid to swap
         void printOutGameOver(); //print out list of players and overall winner
         static bool compare(Player, Player); //to sort by num rubies at end
         void addSelection(Board::Letter row, Board::Number col); //add selection to orderSelected for expert display mode
+        static std::string getSelectedRow(); //helper function to check user input
+        static int getSelectedCol(); //helper function to check user input
+        void turnFaceDown(const Board::Letter& row, const Board::Number& col);
+        void removeFromOrderSelected(const Board::Letter& , const Board::Number&); //removes item from orderSelected so it won't be displayed in expert display mode
+        void swapCards(const Board::Letter& , const Board::Number&); //swaps card at given position with current card
+        bool firstTurn(); //true if this is first turn of the round (no expert rule should apply on first turn)
 };
 
 #endif
