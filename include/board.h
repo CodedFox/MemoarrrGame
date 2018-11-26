@@ -42,10 +42,11 @@ class Board {
         void setCard( const Letter&, const Number&, Card* );
 
         /* A board must be printable with the insertion operator cout << board. */
-        friend std::ostream &operator<<(std::ostream &, Board &);
 
         friend std::ostream& operator<<(std::ostream & os, const Letter & l);
         friend std::ostream& operator<<(std::ostream & os, const Number & n);
+        
+        friend std::ostream &operator<<(std::ostream &, Board &);
 };
 
 #endif
