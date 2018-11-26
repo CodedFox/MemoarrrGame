@@ -22,14 +22,14 @@ Board::Board(CardDeck* cd){
 /* const returns true if the card at a given position is face up. Letter and Number are enumerations. 
         Throws an exception of type OutOfRange if an invalid Letter and Number combination was given. */            
 bool Board::isFaceUp( const Letter& row, const Number& col) {
-    if(!(row >= A && row <= E) || !(col >= _1 && col <= _5) || (row==C && col == 3)) {
+    if(!(row >= A && row <= E) || !(col >= _1 && col <= _5) || (row==C && col == _3)) {
     //C3 is middle section
     throw std::out_of_range ("invalid position");}
     return cardsOnBoard[row][col].second;
 } 
 
 bool Board::turnFaceUp( const Letter& row, const Number& col) {
-    if(!(row >= A && row <= E) || !(col >= _1 && col <= _5) || (row==C && col == 3)) {
+    if(!(row >= A && row <= E) || !(col >= _1 && col <= _5) || (row==C && col == _3)) {
     //C3 is middle section
     throw std::out_of_range ("invalid position");}
     if(cardsOnBoard[row][col].second){
@@ -41,7 +41,7 @@ bool Board::turnFaceUp( const Letter& row, const Number& col) {
 }
 
 bool Board::turnFaceDown( const Letter& row, const Number& col) {
-    if(!(row >= A && row <= E) || !(col >= _1 && col <= _5) || (row==C && col == 3)) {
+    if(!(row >= A && row <= E) || !(col >= _1 && col <= _5) || (row==C && col == _3)) {
     //C3 is middle section
     throw std::out_of_range ("invalid position");}
     if(cardsOnBoard[row][col].second){
@@ -54,7 +54,7 @@ bool Board::turnFaceDown( const Letter& row, const Number& col) {
 
 //returns a pointer to the card at a given location. Throws an exception of type OutOfRange if an invalid Letter and Number combination was given.
 Card* Board::getCard( const Letter& row, const Number& col) {
-    if(!(row >= A && row <= E) || !(col >= _1 && col <= _5) || (row==C && col == 3)) {
+    if(!(row >= A && row <= E) || !(col >= _1 && col <= _5) || (row==C && col == _3)) {
     //C3 is middle section
     throw std::out_of_range ("invalid position");}
     return cardsOnBoard[row][col].first;
@@ -62,7 +62,7 @@ Card* Board::getCard( const Letter& row, const Number& col) {
 
 //updates the pointer to card at a given location. Throws an exception of type OutOfRange if an invalid Letter and Number combination was given.
 void Board::setCard( const Letter& row, const Number& col, Card* ptrCard) {
-    if(!(row >= A && row <= E) || !(col >= _1 && col <= _5) || (row==C && col == 3)) {
+    if(!(row >= A && row <= E) || !(col >= _1 && col <= _5) || (row==C && col == _3)) {
     //C3 is middle section
     throw std::out_of_range ("invalid position");}
     cardsOnBoard[row][col].first = ptrCard;

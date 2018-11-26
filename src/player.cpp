@@ -73,6 +73,7 @@ std::ostream & operator<<(std::ostream &os, const Player::Side &bs) {
   os << str;
   return os;
 }
+
 #ifdef TEST_PLAYER_
 int main() {
 Player p("Bob",Player::Side::left);

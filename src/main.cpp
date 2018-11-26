@@ -69,7 +69,7 @@ int getSelectedCol(){
         std::cin >> str;
     }while(!std::regex_match(str,regex_pattern));
 
-    return stoi(str);
+    return stoi(str);  //subtract 1 because 0-indexed array
 }
 int main() {
    
@@ -95,51 +95,57 @@ std::cout<<game<<std::endl;
 // while Rules.gameOver is false  
 while(!rules.gameOver(game)){
     //     update status of cards in board as face down
-    game.Game::setRound(roundCounter); //set round also resets board
+    game.Game::setRound(roundCounter); //set round also resets board, currentPlayer iterator, and currentcard
     //     update status of all players in game as active
-    for(int i = 0; i<numPlayers; ++i){              
+    std::cout<<"Starting ROUND " << (game.Game::getRound() + 1) << std::endl;
+   for(int i = 0; i<numPlayers; ++i){              
         game.getPlayer(static_cast<Player::Side>(i)).setActive(true);
     //     for each player
     //         Temporarily reveal 3 cards directly in front of the player
         game.reveal3Cards(static_cast<Player::Side>(i));              
     }
-    int currentSideAsInt = 0;
+    
     while (!rules.roundOver(game)){
     //         # next active player takes a turn        
     //         get selection of card to turn face up from active player update board in game
+           
+           std::cout<< (*game.getItCurrentPlayer()).second.getName() << " it is your turn" << std::endl;
+           
            Board::Letter row = Board::convertStrToLetter(getSelectedRow());
            Board::Number col = Board::convertIntToNumber(getSelectedCol());
-           game.setCurrentCard(game.getCard(row, col));
+           while (!game.validSelection(row,col)){              
+               std::cout<<"You can't choose that spot"<< std::endl;
+                row = Board::convertStrToLetter(getSelectedRow());
+                col = Board::convertIntToNumber(getSelectedCol());
+           } 
+           
+           game.setCard(row, col, game.getCard(row, col));
            //TODO more logic here top play game
            if (!rules.isValid(game)){
             //# player is no longer part of the current round
             //current player becomes inactive
-                    game.getPlayer(static_cast<Player::Side>(currentSideAsInt)).setActive(false);
-                    currentSideAsInt = (currentSideAsInt + 1) % numPlayers;  //could need to loop around the players more than once
+            std::cout << "You're out of this round " << (*game.getItCurrentPlayer()).second.getName() << std::endl;
+                (*game.getItCurrentPlayer()).second.setActive(false);                    
             }
+             
+        game.setCurrentPlayer(rules.getNextPlayer(game));    
     //  display game
         std::cout<<game<<std::endl; 
-    }        
+    }
     //  Remaining active player receives reward (rubies)
-        game.getPlayer(static_cast<Player::Side>(currentSideAsInt)).addReward(*(rd->getNext()));
+       (*game.getItCurrentPlayer()).second.addReward(*(rd->getNext()));
+       std::cout<<"Congratulations " << (*game.getItCurrentPlayer()).second.getName() << " you won this round!" << std::endl;
         roundCounter++;
+        if(!rules.gameOver(game)){
+        std::cout<<"Round over.  Press ENTER to start the next round"<<std::endl;
+        std::cin.get();       } 
+        
 }
+
 std::cout << "GAME OVER" << std::endl;
 // print players with their number of rubies sorted from least to most rubies
-for(int i = 0; i<numPlayers; ++i){
-    //TODO still need to sort this
-    std::cout << game.getPlayer(static_cast<Player::Side>(i)) << std::endl;
-}
-// print overall winner
-    
-
-
-
-
-    return 0;
-
-
-
+// and print overall winner
+game.printOutGameOver();
 
 
     return 0;

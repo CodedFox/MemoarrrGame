@@ -12,20 +12,47 @@ bool Rules::isValid(const Game& g) {
     if (game.getCurrentCard()->getFaceAnimal()==game.getPreviousCard()->getFaceAnimal()) return true;
     return false;
 }
-// returns true if the number of rounds has reached 7.
+// returns true if the number of rounds has reached 6 (0-indexed).
 bool Rules::gameOver(const Game& g) {
     Game& game = const_cast<Game&>(g);
-    return (game.getRound()==7);
+    return (game.getRound()==6);
 }
 // returns true if there is only one active Player left.
 bool Rules::roundOver(const Game& g) {
     Game& game = const_cast<Game&>(g);
-    int countActive(0);
-    if (game.getPlayer(Player::Side::top).isActive()) countActive++;
-    if (game.getPlayer(Player::Side::bottom).isActive()) countActive++;
-    if (game.getPlayer(Player::Side::right).isActive()) countActive++;
-    if (game.getPlayer(Player::Side::left).isActive()) countActive++;
+    int countActive(0);     
+	for (auto player : game.getPlayerMap())
+	{
+		if (player.second.isActive()) countActive++;		
+	}
     return (countActive == 1);
+}
+const Player& Rules::getNextPlayer(const Game& g){
+    Game& game = const_cast<Game&>(g);
+    auto next = game.getItCurrentPlayer();
+    //advance iterator and correct if at end of list
+    if( ++next == game.getPlayerMap().end()){
+            next = game.getPlayerMap().begin();
+    } 
+    while (!((*next).second.isActive())) {  //player not active, try next one
+    if( ++next == game.getPlayerMap().end()){
+            next = game.getPlayerMap().begin();
+        } 
+    }
+    if (game.getExpertRules() && game.getCurrentCard()->getFaceAnimal()==FaceAnimal::turtle){
+    //next player skipped if turtle chosen in expert rules
+        //advance iterator again and correct if at end of list
+        if( ++next == game.getPlayerMap().end()){
+            next = game.getPlayerMap().begin();
+        } 
+        while (!((*next).second.isActive())) {  //player not active, try next one
+            if( ++next == game.getPlayerMap().end()){
+                next = game.getPlayerMap().begin();
+            } 
+        }
+    } 
+
+    return (*next).second;
 }
 #ifdef TEST_RULES_
 int main() {

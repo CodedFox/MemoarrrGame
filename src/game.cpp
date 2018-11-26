@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <vector>
 #include "game.h"
 #include "player.h"
 #include "card.h"
@@ -9,6 +10,10 @@ Game::Game(){}
 Game::Game(CardDeck* cd, bool expertBd, bool expRules):round(0), board(cd), expertBoard(expertBd), expertRules(expRules){
 previousCard = nullptr;
 currentCard = nullptr;
+blockedPosition = std::make_pair(Board::Letter::C, Board::Number::_3);  //set blocked to start in centre
+}
+std::map<Player::Side, Player>& Game::getPlayerMap(){
+    return playerMap;
 }
 void Game::reveal3Cards(Player::Side side){
     //turn 3 cards face up based on side, print board, turn cards back down
@@ -38,10 +43,11 @@ switch(side) {
   }
   
   std::cout<< "Three cards will now be revealed to " << getPlayer(side).getName() << std::endl;
-  std::cout<< "Everyone else should close their eyes. " << getPlayer(side).getName() << " press any key when you are ready to see the board." << std::endl;
+  std::cout<< "Everyone else should close their eyes. " << getPlayer(side).getName() << " press ENTER when you are ready to see the board." << std::endl;
   std::cin.get();
   std::cout << *this << std::endl;  
-  std::cout << "Press any key when you are finished looking at the board." << std::endl;
+  std::cout << std::endl;
+  std::cout << "Press ENTER when you are finished looking at the board." << std::endl;
   std::cin.get();
   std::cout << std::string( 50, '\n' ) << std::endl; //print a bunch of blank lines to hide displayed cards
   board.reset(); //turn the cards face down again
@@ -51,10 +57,15 @@ int Game::getRound() {
 }
 void Game::setRound(int rnd){
     board.reset();
+    previousCard = nullptr;
+    currentCard = nullptr;
+    itCurrentPlayer = Game::playerMap.begin();
     round = rnd;
 }
 void Game::addPlayer( const Player& player) {
 Game::playerMap.insert(std::make_pair(player.getSide(), player));
+//if(itCurrentPlayer == Game::playerMap.end())
+//    itCurrentPlayer = Game::playerMap.begin();
 }
 
 Player& Game::getPlayer(Player::Side side) {
@@ -62,6 +73,15 @@ Player& Game::getPlayer(Player::Side side) {
   //if (it != Game::playerMap.end()){
   return (*it).second;
   
+}
+void Game::setCurrentPlayer(const Player& player){
+    itCurrentPlayer = Game::playerMap.find(player.getSide());
+} 
+void Game::setItCurrentPlayer(const std::map<Player::Side, Player>::iterator it){        
+    itCurrentPlayer = it;
+}
+const std::map<Player::Side, Player>::iterator Game::getItCurrentPlayer(){
+    return itCurrentPlayer;
 }
 
 const Card* Game::getPreviousCard() {
@@ -75,15 +95,26 @@ const Card* Game::getCurrentCard() {
 }
 
 void Game::setCurrentCard( const Card* c) {
-previousCard = currentCard;
+
+if (previousCard != nullptr) {
+    previousCard = currentCard;
+} else {
+    //first turn, need to set previous card to card chosen
+    previousCard = const_cast<Card*>(c);
+}
 currentCard = const_cast<Card*>(c);
 }
 Card* Game::getCard( const Board::Letter& row, const Board::Number& col){
     return Game::board.getCard(row, col);
 } //which calls the corresponding method in Board
 void Game::setCard( const Board::Letter& row, const Board::Number& col, Card* card ){
-    Game::board.setCard(row, col, card);
+    Game::board.setCard(row, col, card);    
+    Game::board.turnFaceUp(row, col);
+    setCurrentCard(card);
 } //which calls the corresponding method in Board
+
+void Game::setExpertRules(bool exp){ expertRules = exp;}
+bool Game::getExpertRules(){return expertRules;}
 // A game must be printable with the insertion operator cout << game. It should display the board and all players.
 std::ostream &operator<<(std::ostream & os, Game & g){
    // Iterate over the map using c++11 range based for loop
@@ -94,6 +125,44 @@ std::ostream &operator<<(std::ostream & os, Game & g){
    
     return os;
 }
+//check if board spot can be chosen  
+bool Game::validSelection(const Board::Letter& row, const Board::Number& col){
+     //shouldn't select centre square or blocked under expert or already face up
+    if(row == Board::Letter::C && col == Board::Number::_3){
+        //centre square
+        return false;
+    } 
+    if(Game::board.isFaceUp(row, col)){
+        //already face up
+        return false;
+    }
+    if (getExpertRules() && (blockedPosition.first == row && blockedPosition.second== col)){
+        //position blocked under expert rules
+        return false;
+    }
+    return true;
+}
+
+bool Game::compare(Player p1, Player p2) {
+    
+        return p1.getNRubies() < p2.getNRubies();
+}
+void Game::printOutGameOver(){
+    //put players into a vector so we can sort by rubies
+     std::vector <Player> v;    
+    for( auto it = playerMap.begin(); it != playerMap.end(); ++it ) {
+        v.push_back( it->second );
+    }
+    std::sort (v.begin(), v.end(), Game::compare);
+    for(auto element : v){
+    //TODO still need to sort this by numRubies
+       element.setDisplayMode(true);
+       std::cout<<element<<std::endl;       
+   }
+       std::cout<<v.back().getName() << " is the winner!" << std::endl;       
+}
+
+
 #ifdef TEST_GAME_
 int main() {
 CardDeck* cd = CardDeck::make_CardDeck();
