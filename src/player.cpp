@@ -8,7 +8,7 @@
 // Joe Remember Doe: left (active)
 // Once endOfGame is true:
 // Joe Remember Doe:  3 rubies
-std::ostream & operator<<(std::ostream & os, const Side & s) {
+std::ostream& operator<<(std::ostream & os, const Side & s) {
     switch(s) {
         case Side::top: os << "top"; break;
         case Side::bottom: os << "bottom"; break;
