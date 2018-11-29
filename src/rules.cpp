@@ -56,3 +56,52 @@ bool Rules::isValidSelection( Game& g, const Letter& l, const Number& n ) {
     }
     return false;
 }
+
+void Rules::applyExpertRules( Game& game ){
+    // WALRUS
+    if (game.getCurrentCard()->getAnimal() == FaceAnimal::Walrus){
+        //handle walrus -- block a card for next player
+        std::cout << (*game.getCurrentPlayer()).second.getName() << " choose a spot to block" << std::endl;           
+        Letter row = game.getRow();
+        Number col = game.getCol();
+
+        while (!game.validToBlock(row, col)){              
+            std::cout << "You can't choose that spot." << std::endl;
+            Letter row = game.getRow();
+            Number col = game.getCol();
+        }
+        game.setBlockedPosition(row, col);
+
+    // PENGUIN
+    } else if (game.getCurrentCard()->getAnimal() == FaceAnimal::Penguin){
+        //handle penguin -- turn a card face down
+        std::cout << (*game.getCurrentPlayer()).second.getName() << " choose a spot to turn face down" << std::endl;           
+        Letter row = game.getRow();
+        Number col = game.getCol();
+
+        while (!game.validToTurnFaceDown(row,col)) {              
+            std::cout << "You can't choose that spot." << std::endl;
+            row = game.getRow();
+            col = game.getCol();
+        }
+
+        game.turnCardDown(row, col);
+        std::cout << game << std::endl; 
+           
+    // OCTOPUS
+    } else if (game.getCurrentCard()->getAnimal()==FaceAnimal::Octopus){
+        // handle octopus -- swap a card in the 4-neighbourhood
+        std::cout << (*game.getCurrentPlayer()).second.getName() << " choose a spot to swap with the current card" << std::endl;           
+        Letter row = game.getRow();
+        Number col = game.getCol();
+
+        while (!game.validToSwap(row, col)) {              
+            std::cout << "You can't choose that spot" << std::endl;
+            row = game.getRow();
+            col = game.getCol();
+        }
+
+        game.swapCards(row,col);
+        std::cout << game << std::endl; 
+    } 
+}

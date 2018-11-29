@@ -25,6 +25,18 @@ int inputPlayer() {
     return stoi(str);
 }
 
+bool askExpert(std::string word){
+    char answer;
+    do {
+        std::cout << "Would you like to play with the expert " << word << "? [y/n]" << std::endl;
+        std::cin >> answer;
+    } while( !std::cin.fail() && answer!='y' && answer!='n' && answer!='N' && answer!='Y' );
+    if (answer == 'y' || answer =='Y') {
+        return true;
+    }
+    return false;
+}
+
 std::string getPlayerName(int playerNum){
     std::string str;
     do {
@@ -35,47 +47,12 @@ std::string getPlayerName(int playerNum){
     return str;
 }
 
-Letter getRow() {
-    std::string str;
-    std::regex regex_pattern("[a-eA-E]");
-    do {
-        std::cout << "Please choose a row (A-E): " ;
-        std::cin >> str;
-    } while(!std::regex_match(str, regex_pattern));
-    char cstr = str[0];
-    switch (cstr) {     
-        case 'A': case 'a': return Letter::A;
-        case 'B': case 'b': return Letter::B;
-        case 'C': case 'c': return Letter::C;
-        case 'D': case 'd': return Letter::D;
-        case 'E': case 'e': return Letter::E;
-        default: return Letter::A;
-    }
-}
-
-Number getCol() {
-    std::string str;
-    std::regex regex_pattern("[1-5]");
-
-    do {
-        std::cout << "Please choose a column (1-5): " ;
-        std::cin >> str;
-    } while(!std::regex_match(str, regex_pattern));
-
-    int i = stoi(str);
-    switch (i) {     
-        case 1: return Number::_1;
-        case 2: return Number::_2;
-        case 3: return Number::_3;
-        case 4: return Number::_4;
-        case 5: return Number::_5;
-        default: return Number::_1;
-    }
-}
-
 int main() {
     std::cout << "= Welcome to Memoarrr! =" << std::endl;
     std::cout << std::endl;
+
+    bool expertBoardFlag = askExpert("board");
+    bool expertRulesFlag = askExpert("rules");
 
     // Ask player to choose game version, number of players and names of players.
     int numPlayers = inputPlayer();
@@ -85,7 +62,7 @@ int main() {
     CardDeck cd = cd.make_CardDeck();
     RewardDeck rd = rd.make_RewardDeck();
 
-    Game game(&cd);
+    Game game(&cd, expertBoardFlag, expertRulesFlag);
     Rules rules;
 
     for (int i = 0; i < numPlayers; i++) {
@@ -124,20 +101,22 @@ int main() {
             std::cout<< (*game.getCurrentPlayer()).second.getName() << " it is your turn." << std::endl;
 
             // get selection of card to turn face up from active player update board in game
-            Letter row = getRow();
-            Number col = getCol();
+            Letter row = game.getRow();
+            Number col = game.getCol();
 
             bool valid = false;
             while (!valid) {
                 if (rules.isValidSelection(game, row, col)) {
                     valid = true;
-                    game.setCurrentCard(game.getCard(row, col));
                 } else {
                     std::cout << "You can't choose that spot! Choose another." << std::endl;
-                    row = getRow();
-                    col = getCol();
+                    row = game.getRow();
+                    col = game.getCol();
                 }
             }
+            game.setCurrentCard(game.getCard(row, col));
+            game.addCardToOrder(row,col);
+
             std::cout << std::endl;
 
             // if Rules.isValid(card) is false
@@ -154,6 +133,12 @@ int main() {
                 game.turnCardDown(row, col);
                 // current player becomes inactive
                 game.getCurrentPlayer()->second.setActive(false);
+
+            } else if (game.getExpertRules() && !game.firstTurn()) {
+                // move is valid and expert rules are selected, need to deal with octopus, penguin, walrus
+                // crab and turtle are handled in getNextPlayer 
+                rules.applyExpertRules(game);
+
             } else {
                 game.turnCardUp(row, col);
                 // display game

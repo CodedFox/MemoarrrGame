@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <utility>
+#include <regex>
 
 #include "game.h"
 #include "player.h"
@@ -27,6 +28,44 @@ void Game::setCurrentCard( const Card* c ) {
         previousCard = const_cast<Card*>(c);
     }
     currentCard = const_cast<Card*>(c);
+}
+
+Letter Game::getRow() {
+    std::string str;
+    std::regex regex_pattern("[a-eA-E]");
+    do {
+        std::cout << "Please choose a row (A-E): " ;
+        std::cin >> str;
+    } while(!std::regex_match(str, regex_pattern));
+    char cstr = str[0];
+    switch (cstr) {     
+        case 'A': case 'a': return Letter::A;
+        case 'B': case 'b': return Letter::B;
+        case 'C': case 'c': return Letter::C;
+        case 'D': case 'd': return Letter::D;
+        case 'E': case 'e': return Letter::E;
+        default: return Letter::A;
+    }
+}
+
+Number Game::getCol() {
+    std::string str;
+    std::regex regex_pattern("[1-5]");
+
+    do {
+        std::cout << "Please choose a column (1-5): " ;
+        std::cin >> str;
+    } while(!std::regex_match(str, regex_pattern));
+
+    int i = stoi(str);
+    switch (i) {     
+        case 1: return Number::_1;
+        case 2: return Number::_2;
+        case 3: return Number::_3;
+        case 4: return Number::_4;
+        case 5: return Number::_5;
+        default: return Number::_1;
+    }
 }
 
 void Game::revealSideCards( const Side s ) {
@@ -80,6 +119,69 @@ void Game::newRound() {
     board.reset();
     previousCard = nullptr;
     currentCard = nullptr;
+}
+
+bool Game::validToBlock( const Letter& row, const Number& col ) {
+     //shouldn't select centre square or blocked under expert or already face up
+    if (row == Letter::C && col == Number::_3) {
+        return false;
+    } 
+    if (board.isFaceUp(row, col)) {
+        return false;
+    }
+    return true;
+}
+
+bool Game::validToTurnFaceDown( const Letter& row, const Number& col ) {
+     //shouldn't select centre square or blocked under expert or already face up
+    if (row == Letter::C && col == Number::_3) {
+        return false;
+    } 
+    if (!board.isFaceUp(row, col)) {
+        return false;
+    }
+    return true;
+}
+
+bool Game::validToSwap(const Letter& row, const Number& col){
+     //shouldn't select centre square or blocked under expert or already face up
+    if (row == Letter::C && col == Number::_3) {
+        return false;
+    }
+    if (!orderSelected.empty()) {
+        Letter currRow = orderSelected.back().first;
+        Number currCol = orderSelected.back().second;
+        
+        if ( ( (row == currRow+1 || row == currRow-1) && (col == currCol) ) 
+            || ( (col == currCol+1 || col == currCol-1) && (row==currRow) ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void Game::removeFromOrderSelected( const Letter& row, const Number& col ) {
+    orderSelected.erase(std::remove(orderSelected.begin(), orderSelected.end(), std::make_pair(row,col)), orderSelected.end());
+}
+
+void Game::swapCards( const Letter& row, const Number& col ) {
+    Card* tmp = currentCard;
+
+    if (!orderSelected.empty()) {
+        Letter currRow = orderSelected.back().first;
+        Number currCol = orderSelected.back().second;       
+        removeFromOrderSelected(currRow, currCol);   
+
+        if (std::find(orderSelected.begin(), orderSelected.end(), std::make_pair(row,col)) != orderSelected.end()) {
+            //if swap chosen is already in list we need to update it
+            std::replace (orderSelected.begin(), orderSelected.end(), std::make_pair(row,col), std::make_pair(currRow,currCol)); 
+        }     
+
+        Game::board.setCard(currRow, currCol, getCard(row,col));
+
+        setCard(row,col,tmp);
+        addSelection(row,col);
+    }
 }
 
 void Game::printWinners() {

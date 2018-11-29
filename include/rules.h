@@ -15,6 +15,7 @@ class Rules {
         bool roundOver( const Game& ); // returns true if there is only one active Player left.
         const Player& getNextPlayer( const Game& );
         bool isValidSelection( Game&, const Letter&, const Number& );
+        void applyExpertRules( Game& );
 };
 
 #endif
