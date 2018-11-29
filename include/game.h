@@ -29,7 +29,7 @@ class Game {
         Game(CardDeck * cd): board(cd) {};
         inline int getRound() const { return round; }; // returns a number between 0 and 6 corresponding to the current round of the game
         void addPlayer( const std::string ); // which adds a Player to this game.
-        inline std::map<Side, Player> getPlayers() const { return players; };
+        inline std::map<Side, Player>& getPlayers() { return players; };
         inline const std::map<Side, Player>::iterator getCurrentPlayer() const { return currentPlayer; };
         inline void setCurrentPlayer( const Player& p ) { currentPlayer = players.find(p.getSide()); };
         inline Player& getPlayer( Side s ) { return players[s]; } ;

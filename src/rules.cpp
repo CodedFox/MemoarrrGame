@@ -26,8 +26,9 @@ bool Rules::gameOver( const Game& g ) {
 
 // returns true if there is only one active Player left.
 bool Rules::roundOver( const Game& g ) {
+    Game& game = const_cast<Game&>(g);
     int count = 0;
-    for (auto player : g.getPlayers()) {
+    for (auto player : game.getPlayers()) {
         if (player.second.isActive()) {
             count++;
         }
@@ -36,10 +37,11 @@ bool Rules::roundOver( const Game& g ) {
 }
 
 const Player& Rules::getNextPlayer( const Game& g ) {
-    auto it = g.getCurrentPlayer();
+    Game& game = const_cast<Game&>(g);
+    auto it = game.getCurrentPlayer();
     do {
-        if(++it == g.getPlayers().end()) {
-            it = g.getPlayers().begin();
+        if(++it == game.getPlayers().end()) {
+            it = game.getPlayers().begin();
         }
     } while (!((*it).second.isActive()));
 

@@ -74,13 +74,12 @@ void Game::newRound() {
         players[Side(i)].setActive(true);
     }
     
-    currentPlayer = players.find(Side(round%numPlayers));
+    currentPlayer = std::next(players.begin(), round%numPlayers);
 
     round += 1;
     board.reset();
     previousCard = nullptr;
     currentCard = nullptr;
-
 }
 
 void Game::printWinners() {
