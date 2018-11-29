@@ -32,9 +32,9 @@ std::string Card::operator()(int row) {
     std::ostringstream oss;
     if (row >= 0 && row < 3) {
         if (row%2 == 1) {
-            oss << background << animal << background;
+            oss << background << " " << animal << " " << background;
         } else {
-            oss << background << background << background;
+            oss << background << " " << background << " " << background;
         }
     } else {
         throw std::invalid_argument( "Invalid Row" );

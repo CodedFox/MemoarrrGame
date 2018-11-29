@@ -55,7 +55,7 @@ bool Board::turnFaceDown( const Letter& l, const Number& n ) {
 void Board::reset() {
     for (int i = 0; i < 5; i++) {
         for (int j = 0; j < 5; j++) {
-            if ((i != 2 && j != 2)) {
+            if (!(i == 2 && j == 2)) {
                 if (isFaceUp(Letter(i), Number(j))) {
                     turnFaceDown(Letter(i), Number(j));
                 }
@@ -115,18 +115,18 @@ std::ostream & operator<<(std::ostream & os, Board & b) {
                     if (b.isFaceUp(Letter(i), Number(k))) {
                         os << (*b.gameBoard[std::make_pair(Letter(i), Number(k))].first)(j);
                     } else {
-                        os << "zzz";
+                        os << "z z z";
                     }
                 } else {
-                    os << "   ";
+                    os << "     ";
                 }
                 if (k < 4)
-                    os << " ";
+                    os << "  ";
             }
             os << std::endl;
         }
         os << std::endl;
     }
-    os << "   " << Number(0) << "   " << Number(1) << "   " << Number(2) << "   " << Number(3) << "   " << Number(4) << std::endl;
+    os << "    " << Number(0) << "      " << Number(1) << "      " << Number(2) << "      " << Number(3) << "      " << Number(4) << std::endl;
     return os;
 }
