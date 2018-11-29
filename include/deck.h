@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <random>
+#include <chrono> 
 
 // Design a class Deck<C> as an abstract factory class that will be used to create 
 // a set of cards or a set of rewards. The type parameter <C> is intended to be one 
@@ -23,8 +24,8 @@ class Deck {
 
 template <typename C>
 void Deck<C>::shuffle() {
-    auto rng = std::default_random_engine {};
-    std::shuffle(cards.begin(), cards.end(), rng);
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::shuffle (cards.begin(), cards.end(), std::default_random_engine(seed));
 }
 
 template <typename C>

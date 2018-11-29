@@ -6,8 +6,8 @@
 #include "cardDeck.h"
 class CardDeck;
 
-enum class Letter {A, B, C, D, E};
-enum class Number {_1, _2, _3, _4, _5};
+enum Letter {A, B, C, D, E};
+enum Number {_1, _2, _3, _4, _5};
 
 // Design a class Board which holds an array of strings corresponding to the screen display of the game.
 class Board {

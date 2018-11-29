@@ -18,6 +18,7 @@ class Board;
 class Game {
     private:
         int round = 0;
+        bool firstTurn = true;
         std::map<Side, Player> players;
         std::map<Side, Player>::iterator currentPlayer;
         Board board;
@@ -51,13 +52,14 @@ class Game {
         inline void turnCardDown( const Letter& l, const Number& n ) { board.turnFaceDown(l, n); };
         inline void addCardToOrder( Letter row, Number col ) { orderSelected.push_back(std::make_pair(row, col)); };
         inline bool getExpertRules() const { return expertRules; };
-        inline bool firstTurn() const { return (orderSelected.size() <= 1); };
+        inline bool getFirstTurn() const { return firstTurn; };
+        inline void setFirstTurn( bool val ) { firstTurn = val; };
         bool validToBlock( const Letter&, const Number& );
         inline void setBlockedPosition(const Letter& row, const Number& col) { blockedPosition = std::make_pair(row, col); };
+        inline std::pair<Letter, Number> getBlockedPosition() const { return blockedPosition; };
         bool validToTurnFaceDown( const Letter&, const Number& );
         bool validToSwap( const Letter&, const Number& );
         void removeFromOrderSelected( const Letter&, const Number& );
-        inline void addSelection( Letter row, Number col ) { orderSelected.push_back(std::make_pair(row,col)); };
         void swapCards( const Letter&, const Number& );
         void printWinners();
 

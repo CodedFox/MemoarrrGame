@@ -36,7 +36,7 @@ Letter Game::getRow() {
     do {
         std::cout << "Please choose a row (A-E): " ;
         std::cin >> str;
-    } while(!std::regex_match(str, regex_pattern));
+    } while( !std::cin.fail() && !std::regex_match(str, regex_pattern) );
     char cstr = str[0];
     switch (cstr) {     
         case 'A': case 'a': return Letter::A;
@@ -55,7 +55,7 @@ Number Game::getCol() {
     do {
         std::cout << "Please choose a column (1-5): " ;
         std::cin >> str;
-    } while(!std::regex_match(str, regex_pattern));
+    } while( !std::cin.fail() && !std::regex_match(str, regex_pattern) );
 
     int i = stoi(str);
     switch (i) {     
@@ -96,15 +96,15 @@ void Game::revealSideCards( const Side s ) {
     std::cout<< "Everyone else should close their eyes. " << getPlayer(s).getName() << ", press 'ENTER' when you are ready to see the board." << std::endl;
     std::cin.get();
     //turn off export board flag for this part if it is on
-    // bool tmp = getExpertBoard();
-    // setExpertBoard(false);  
+    bool tmp = expertBoard;
+    expertBoard = false;  
     std::cout << *this << std::endl;  
     std::cout << std::endl;
     std::cout << "Press 'ENTER' when you are finished looking at the board." << std::endl;
     std::cin.get();
     std::cout << std::string( 50, '\n' ) << std::endl; //print a bunch of blank lines to hide displayed cards
     board.reset(); //turn the cards face down again
-    // setExpertBoard(tmp);
+    expertBoard = tmp;
 }
 
 void Game::newRound() {
@@ -119,6 +119,8 @@ void Game::newRound() {
     board.reset();
     previousCard = nullptr;
     currentCard = nullptr;
+    orderSelected.clear();
+    firstTurn = true;
 }
 
 bool Game::validToBlock( const Letter& row, const Number& col ) {
@@ -165,23 +167,21 @@ void Game::removeFromOrderSelected( const Letter& row, const Number& col ) {
 }
 
 void Game::swapCards( const Letter& row, const Number& col ) {
-    Card* tmp = currentCard;
+    Letter currRow = orderSelected.back().first;
+    Number currCol = orderSelected.back().second;
 
-    if (!orderSelected.empty()) {
-        Letter currRow = orderSelected.back().first;
-        Number currCol = orderSelected.back().second;       
-        removeFromOrderSelected(currRow, currCol);   
+    setCard(currRow, currCol, getCard(row,col));
+    setCard(row, col, currentCard);
 
-        if (std::find(orderSelected.begin(), orderSelected.end(), std::make_pair(row,col)) != orderSelected.end()) {
-            //if swap chosen is already in list we need to update it
-            std::replace (orderSelected.begin(), orderSelected.end(), std::make_pair(row,col), std::make_pair(currRow,currCol)); 
-        }     
-
-        Game::board.setCard(currRow, currCol, getCard(row,col));
-
-        setCard(row,col,tmp);
-        addSelection(row,col);
+    removeFromOrderSelected(currRow, currCol);       
+    auto it = std::find(orderSelected.begin(), orderSelected.end(), std::make_pair(row,col));
+    if (it != orderSelected.end()) {
+        std::replace(orderSelected.begin(), orderSelected.end(), std::make_pair(row, col), std::make_pair(currRow, currCol)); 
+    } else {
+        board.turnFaceUp(row, col);
+        board.turnFaceDown(currRow, currCol);
     }
+    addCardToOrder(row, col);
 }
 
 void Game::printWinners() {
@@ -191,7 +191,7 @@ void Game::printWinners() {
         winners.push_back( it->second );
     }
 
-    std::sort(winners.begin(), winners.end(), [](Player p1, Player p2) { return p1.getNRubies() > p2.getNRubies(); });
+    std::sort(winners.begin(), winners.end(), [](Player p1, Player p2) { return p1.getNRubies() < p2.getNRubies(); });
     
     for(auto player : winners){
        player.setDisplayMode(true);
@@ -199,11 +199,12 @@ void Game::printWinners() {
     }
     std::cout << std::endl;
     //check for ties
-    if (winners[0].getNRubies() == winners[1].getNRubies()) {
+    int n = winners.size();
+    if (winners[n-1].getNRubies() == winners[n-2].getNRubies()) {
         //tie
-        std::cout << winners[0].getName() << " and " << winners[1].getName() << " are tied, both players have won!" << std::endl;    
+        std::cout << winners[n-1].getName() << " and " << winners[n-2].getName() << " are tied, both players have won!" << std::endl;    
     } else {
-        std::cout << winners.front().getName() << " is the winner!" << std::endl;
+        std::cout << winners.back().getName() << " is the winner!" << std::endl;
     }
     std::cout << std::endl;
 }
@@ -213,9 +214,36 @@ std::ostream & operator<<(std::ostream & os, const Game & g) {
     for(auto player : g.players) {
        os << player.second << std::endl;
     }
-    os << std::endl << "=BOARD=" << std::endl;
     Board b = g.board;
-    os << b;
+
+    if (g.expertBoard) {
+        os << std::endl << "=EXPERT BOARD=" << std::endl;
+        if (g.orderSelected.empty()){
+            os << "~ No cards available ~" << std::endl;
+        } else {
+            for (int row = 0; row < 4; row++) { // Card row
+                for ( auto it = g.orderSelected.begin(); it != g.orderSelected.end(); ++it ) { // Cards
+                    if ( row < 3 ) { // middle card
+                        if (b.isFaceUp(it->first, it->second)) {
+                            os << (*b.getCard(it->first, it->second))(row) << "  ";
+                        }
+                    } else {
+                        if (b.isFaceUp(it->first, it->second)) {
+                            os << " " << std::string(1, ('A'+(it->first))) << " " << ((it->second)+1) << "   "; // Letter - Number
+                        }
+                    }
+                }
+                if ( row == 2 ){
+                    os << std::endl;
+                }
+                os << std::endl;
+            }
+        }
+
+   } else {
+        os << std::endl << "=BOARD=" << std::endl;
+        os << b;
+   }
 
     return os;
 }

@@ -18,10 +18,7 @@ bool Rules::isValid( const Game& g ) {
 
 // returns true if the number of rounds has reached 7.
 bool Rules::gameOver( const Game& g ) {
-    if (g.getRound() == 6) {
-        return true;
-    }
-    return false;
+    return (g.getRound() == 7);
 }
 
 // returns true if there is only one active Player left.
@@ -39,6 +36,22 @@ bool Rules::roundOver( const Game& g ) {
 const Player& Rules::getNextPlayer( const Game& g ) {
     Game& game = const_cast<Game&>(g);
     auto it = game.getCurrentPlayer();
+
+    // CRAB - Take another turn
+    if (game.getExpertRules() && !game.getFirstTurn() && isValid(game) && game.getCurrentCard()->getAnimal()==FaceAnimal::Crab) {
+        return (*it).second;
+    }
+    
+    // TURTLE - Skip next player
+    if (game.getExpertRules() && !game.getFirstTurn() && isValid(game) && game.getCurrentCard()->getAnimal()==FaceAnimal::Turtle) {
+        do {
+            if(++it == game.getPlayers().end()) {
+                it = game.getPlayers().begin();
+            }
+        } while (!((*it).second.isActive()));
+    }
+
+    // regular get next player
     do {
         if(++it == game.getPlayers().end()) {
             it = game.getPlayers().begin();
@@ -49,35 +62,37 @@ const Player& Rules::getNextPlayer( const Game& g ) {
 }
 
 bool Rules::isValidSelection( Game& g, const Letter& l, const Number& n ) {
-    if (!(l == Letter::C && n == Number::_3)) {
-        if (!(g.isCardFaceUp(l, n))) {
-            return true;
-        }
+    if ( (l == Letter::C && n == Number::_3) 
+        || (g.isCardFaceUp(l, n)) 
+        || (g.getExpertRules() && l == g.getBlockedPosition().first && n == g.getBlockedPosition().second)) {
+            return false;
     }
-    return false;
+
+    return true;
 }
 
 void Rules::applyExpertRules( Game& game ){
-    // WALRUS
+    Letter row;
+    Number col;
+
+     // WALRUS - block card for next player
     if (game.getCurrentCard()->getAnimal() == FaceAnimal::Walrus){
-        //handle walrus -- block a card for next player
-        std::cout << (*game.getCurrentPlayer()).second.getName() << " choose a spot to block" << std::endl;           
-        Letter row = game.getRow();
-        Number col = game.getCol();
+        std::cout << (*game.getCurrentPlayer()).second.getName() << ", choose a spot to block." << std::endl;           
+        row = game.getRow();
+        col = game.getCol();
 
         while (!game.validToBlock(row, col)){              
             std::cout << "You can't choose that spot." << std::endl;
-            Letter row = game.getRow();
-            Number col = game.getCol();
+            row = game.getRow();
+            col = game.getCol();
         }
         game.setBlockedPosition(row, col);
 
-    // PENGUIN
-    } else if (game.getCurrentCard()->getAnimal() == FaceAnimal::Penguin){
-        //handle penguin -- turn a card face down
-        std::cout << (*game.getCurrentPlayer()).second.getName() << " choose a spot to turn face down" << std::endl;           
-        Letter row = game.getRow();
-        Number col = game.getCol();
+    // PENGUIN - turn a card face down
+    } else if (game.getCurrentCard()->getAnimal() == FaceAnimal::Penguin) {
+        std::cout << (*game.getCurrentPlayer()).second.getName() << ", choose a spot to turn face down." << std::endl;           
+        row = game.getRow();
+        col = game.getCol();
 
         while (!game.validToTurnFaceDown(row,col)) {              
             std::cout << "You can't choose that spot." << std::endl;
@@ -86,14 +101,14 @@ void Rules::applyExpertRules( Game& game ){
         }
 
         game.turnCardDown(row, col);
+        game.removeFromOrderSelected(row, col);
         std::cout << game << std::endl; 
            
-    // OCTOPUS
-    } else if (game.getCurrentCard()->getAnimal()==FaceAnimal::Octopus){
-        // handle octopus -- swap a card in the 4-neighbourhood
-        std::cout << (*game.getCurrentPlayer()).second.getName() << " choose a spot to swap with the current card" << std::endl;           
-        Letter row = game.getRow();
-        Number col = game.getCol();
+    // OCTOPUS - swap a card with one of its neighbours
+    } else if (game.getCurrentCard()->getAnimal()==FaceAnimal::Octopus) {
+        std::cout << (*game.getCurrentPlayer()).second.getName() << ", choose a neighbour to swap with the current card." << std::endl;           
+        row = game.getRow();
+        col = game.getCol();
 
         while (!game.validToSwap(row, col)) {              
             std::cout << "You can't choose that spot" << std::endl;
@@ -101,7 +116,8 @@ void Rules::applyExpertRules( Game& game ){
             col = game.getCol();
         }
 
-        game.swapCards(row,col);
+        game.swapCards(row, col);
+        std::cout << std::endl;
         std::cout << game << std::endl; 
     } 
 }
