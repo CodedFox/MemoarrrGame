@@ -94,15 +94,16 @@ void Game::printWinners() {
     for(auto player : winners){
        player.setDisplayMode(true);
        std::cout << player << std::endl;       
-   }
-
-   //check for ties
-   if (winners[0].getNRubies() == winners[1].getNRubies()) {
+    }
+    std::cout << std::endl;
+    //check for ties
+    if (winners[0].getNRubies() == winners[1].getNRubies()) {
         //tie
         std::cout << winners[0].getName() << " and " << winners[1].getName() << " are tied, both players have won!" << std::endl;    
     } else {
         std::cout << winners.front().getName() << " is the winner!" << std::endl;
-    }       
+    }
+    std::cout << std::endl;
 }
 
 std::ostream & operator<<(std::ostream & os, const Game & g) {

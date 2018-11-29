@@ -146,10 +146,12 @@ int main() {
                 std::cout << game << std::endl;
 
                 // # player is no longer part of the current round
-                std::cout << "Fail. You're out of this round " << (*game.getCurrentPlayer()).second.getName() << "!" << std::endl;
+                std::cout << "Wrong pair. You're out of this round " << (*game.getCurrentPlayer()).second.getName() << "!" << std::endl;
+                std::cout << "Press 'ENTER' to continue." << std::endl;
+                std::cin.get();
+                std::cin.get();
 
                 game.turnCardDown(row, col);
-
                 // current player becomes inactive
                 game.getCurrentPlayer()->second.setActive(false);
             } else {
@@ -157,9 +159,10 @@ int main() {
                 // display game
                 std::cout << game << std::endl;
             }
-            game.setCurrentPlayer(rules.getNextPlayer(game));
-            std::cout << "Test" << std::endl;
+            Player nextPlayer = rules.getNextPlayer(game);
+            game.setCurrentPlayer(nextPlayer);
         }
+
         game.setCurrentPlayer(rules.getNextPlayer(game));
         game.getCurrentPlayer()->second.addReward(*rd.getNext());
 
