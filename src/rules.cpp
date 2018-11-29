@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <map>
 
 #include "rules.h"
 #include "game.h"
@@ -32,4 +33,24 @@ bool Rules::roundOver( const Game& g ) {
         }
     }
     return (count == 1);
+}
+
+const Player& Rules::getNextPlayer( const Game& g ) {
+    auto it = g.getCurrentPlayer();
+    do {
+        if(++it == g.getPlayers().end()) {
+            it = g.getPlayers().begin();
+        }
+    } while (!((*it).second.isActive()));
+
+    return (*it).second;
+}
+
+bool Rules::isValidSelection( Game& g, const Letter& l, const Number& n ) {
+    if (!(l == Letter::C && n == Number::_3)) {
+        if (!(g.isCardFaceUp(l, n))) {
+            return true;
+        }
+    }
+    return false;
 }
