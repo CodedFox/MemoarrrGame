@@ -8,22 +8,31 @@ class Reward;
 
 // Design a class Player which combines all information for a player including name, 
 // side of the board (top, bottom, left or right) and has the current count of rubies.
+enum class Side {top, bottom, left, right};
+
 class Player {
     private:
-        bool endOfGame;
+        std::string name;
+        Side boardSide; // top, bottom, left, right
+        bool active = true;
+        int rubies = 0;
+        bool endGame = false;
 
     public:
-        std::string getName(); // const return the name of the player.
-        void setActive(bool); // set the status of the player as active or inactive.
-        bool isActive(); // returns true if the player is active.
-        int getNRubies(); // const return the number of rubies won by this player.
-        void addReward( const Reward& ); // add a reward with a given number of rubies.
-        void setDisplayMode(bool endOfGame);
+        Player() {};
+        Player(std::string playerName, Side s): name(playerName), boardSide(s) {};
+        ~Player() {};
+        inline std::string getName() const { return name; }; // const return the name of the player.
+        inline void setActive(bool a) { active = a; }; // set the status of the player as active or inactive.
+        inline bool isActive() const { return active; }; // returns true if the player is active.
+        inline int getNRubies() const { return rubies; }; // const return the number of rubies won by this player.
+        inline void addReward(const Reward& r) { rubies += r.getRubies(); }; // add a reward with a given number of rubies.
+        inline void setDisplayMode(bool endOfGame) { endGame = endOfGame; };
+        inline Side getSide() const { return boardSide; };
+        inline void setSide(Side s) { boardSide = s; };
 
-        // A player must be printable with the insertion operator cout << player. An example print out with endOfGame false could look as follows:
-        // Joe Remember Doe: left (active)
-        // Once endOfGame is true:
-        // Joe Remember Doe:  3 rubies
+        friend std::ostream& operator<<(std::ostream & os, const Player & p);
+        friend std::ostream& operator<<(std::ostream & os, const Side & s);
 };
 
 #endif
