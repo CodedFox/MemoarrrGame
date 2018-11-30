@@ -1,17 +1,39 @@
-// #include <iostream>
-// #include <string>
+#include <iostream>
+#include <string>
 
-// #include "deck.h"
+#include "deck.h"
+#include "config.h"
 
-// void Deck::shuffle() {
+#ifdef TEST_DECK_
 
-// }
+#include "cardDeck.h"
+#include "board.h"
 
-// Card* Deck::getNext() {
+int main() {
+    std::cout << "Testing Deck Class" << std::endl;
 
-// }
+    try {
+        CardDeck cd = cd.make_CardDeck();
+        Board b(&cd);
 
-// bool Deck::isEmpty() {
+        std::cout << b << std::endl;
+        b.turnFaceUp(Letter::A, Number::_1);
+        std::cout << b << std::endl;
 
-//     return true;
-// }
+        cd.shuffle();
+        std::cout << b << std::endl;
+
+        std::cout << cd.isEmpty() << std::endl;
+
+        std::cout << cd.getNext() << std::endl;
+
+        std::cout << "Testing successfully" << std::endl;
+
+    } catch(...) {
+        std::cout << "Testing failed" << std::endl;
+    }
+
+    return 0;
+}
+
+#endif

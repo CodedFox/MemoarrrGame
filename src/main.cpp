@@ -11,6 +11,11 @@
 #include "reward.h"
 #include "rewardDeck.h"
 #include "rules.h"
+#include "config.h"
+
+#if !defined(TEST_BOARD_) && !defined(TEST_CARD_) && !defined(TEST_CARD_DECK_) && \
+    !defined(TEST_DECK_) && !defined(TEST_GAME_) && !defined(TEST_PLAYER_) && \
+    !defined(TEST_REWARD_) && !defined(TEST_REWARD_DECK_) && !defined(TEST_RULES_)
 
 int inputPlayer() {
     std::string str;
@@ -168,74 +173,7 @@ int main() {
 
     game.printWinners();
 
-
-
-
-
-    // Player p1("Jon", Side(0));
-    // std::cout << p1 << std::endl;
-    
-    // p1.setDisplayMode(true);
-    // std::cout << p1 << std::endl;
-
-    // std::map<int, std::pair<int, bool>> m;
-    // m.insert(std::make_pair(0, std::make_pair(8, false)));
-    // std::cout << m[0].first << std::endl;
-    // std::cout << m[0].second << std::endl;
-
-    // CardDeck cd = cd.make_CardDeck();
-    // Game g(&cd);
-    // g.addPlayer("Jon");
-    // g.addPlayer("Nat");
-    // g.addPlayer("Cornelia");
-    // g.addPlayer("David");
-
-    // std::cout << b.isFaceUp(Letter::A, Number::_1) << std::endl;
-    // std::cout << b.turnFaceUp(Letter::A, Number::_1) << std::endl;
-    // std::cout << b.turnFaceUp(Letter::C, Number::_2) << std::endl;
-    // std::cout << b.turnFaceUp(Letter::D, Number::_5) << std::endl;
-    // std::cout << b.turnFaceUp(Letter::E, Number::_4) << std::endl;
-    // std::cout << b.turnFaceUp(Letter::B, Number::_3) << std::endl;
-    // std::cout << b.turnFaceUp(Letter::C, Number::_3) << std::endl;
-    // std::cout << b.isFaceUp(Letter::A, Number::_1) << std::endl;
-    // b.reset();
-    // std::cout << b.isFaceUp(Letter::A, Number::_1) << std::endl;
-
-    // std::cout << g << std::endl;
-
-    // Card c = *cd.getNext();
-
-    // std::cout << c(0) << std::endl;
-    // std::cout << c(1) << std::endl;
-    // std::cout << c(2) << std::endl;
-
-    // CardDeck cd = cd.make_CardDeck();
-    // std::cout << cd.isEmpty() << std::endl;
-    // cd.shuffle();
-
-    // Card c = *cd.getNext();
-    // std::cout << c(0) << std::endl;
-    // std::cout << c(1) << std::endl;
-    // std::cout << c(2) << std::endl;
-    // c = *cd.getNext();
-    // std::cout << c(0) << std::endl;
-    // std::cout << c(1) << std::endl;
-    // std::cout << c(2) << std::endl;
-
-    // RewardDeck rd = rd.make_RewardDeck();
-    // std::cout << rd.isEmpty() << std::endl;
-    // rd.shuffle();
-
-    // Reward r = *rd.getNext();
-    // std::cout << r << std::endl;
-    // r = *rd.getNext();
-    // std::cout << r << std::endl;
-
-    // Card c(FaceAnimal(0), FaceBackground(0));
-
-    // std::cout << c(0) << std::endl;
-    // std::cout << c(1) << std::endl;
-    // std::cout << c(2) << std::endl;
-
     return 0;
 }
+
+#endif

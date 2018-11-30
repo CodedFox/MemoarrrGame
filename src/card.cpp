@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include "card.h"
+#include "config.h"
 
 std::ostream & operator<<(std::ostream & os, const FaceAnimal & fa) {
     switch(fa) {
@@ -41,3 +42,35 @@ std::string Card::operator()(int row) {
     }
     return oss.str();
 }
+
+#ifdef TEST_CARD_
+
+#include "cardDeck.h"
+#include "board.h"
+
+int main() {
+    std::cout << "Testing Card Class" << std::endl;
+
+    try {
+        CardDeck cd = cd.make_CardDeck();
+        Board b(&cd);
+
+        Card * c = b.getCard(Letter::A, Number::_1);
+
+        std::cout << c->getAnimal() << std::endl;
+        std::cout << c->getBackground() << std::endl;
+
+        std::cout << (*c)(0) << std::endl;
+        std::cout << (*c)(1) << std::endl;
+        std::cout << (*c)(2) << std::endl;
+        
+        std::cout << "Testing successfully" << std::endl;
+        
+    } catch (...) {
+        std::cout << "Testing failed << std::endl;
+    }
+    
+    return 0;
+}
+
+#endif

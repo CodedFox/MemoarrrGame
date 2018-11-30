@@ -5,6 +5,7 @@
 #include <stdexcept>
 
 #include "board.h"
+#include "config.h"
 
 Board::Board(CardDeck* cd) {
     cd->shuffle();
@@ -130,3 +131,51 @@ std::ostream & operator<<(std::ostream & os, Board & b) {
     os << "    " << Number(0) << "      " << Number(1) << "      " << Number(2) << "      " << Number(3) << "      " << Number(4) << std::endl;
     return os;
 }
+
+#ifdef TEST_BOARD_
+
+int main() {
+    std::cout << "Testing Board Class" << std::endl;
+
+    try {
+        Letter l = Letter::A;
+        std::cout << l << std::endl;
+
+        Number n = Number::_1;
+        std::cout << n << std::endl;
+
+        CardDeck cd = cd.make_CardDeck();
+        Board b(&cd);
+        std::cout << b << std::endl;
+
+        std::cout << b.isFaceUp(l, n) << std::endl;
+        b.turnFaceUp(l, n);
+        std::cout << b.isFaceUp(l, n) << std::endl;
+        std::cout << b << std::endl;
+
+        b.turnFaceUp(Letter::B, Number::_2);
+        b.turnFaceUp(Letter::D, Number::_4);
+        b.turnFaceUp(Letter::E, Number::_5);
+        std::cout << b << std::endl;
+
+        b.turnFaceDown(Letter::A, Number::_1);
+        b.turnFaceDown(Letter::E, Number::_5);
+        std::cout << b << std::endl;
+
+        b.reset();
+        std::cout << b << std::endl;
+
+        std::cout << b.getCard(l, n) << std::endl;
+        b.setCard(Letter::E, Number::_1, b.getCard(l, n));
+        std::cout << b.getCard(Letter::E, Number::_1) << std::endl;
+        
+        std::cout << "Testing successfully" << std::endl;
+        
+    } catch (...) {
+        std::cout << "Testing failed" << std::endl;
+    }
+
+    return 0;
+}
+
+#endif

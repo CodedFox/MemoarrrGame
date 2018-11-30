@@ -2,6 +2,7 @@
 #include <string>
 
 #include "rewardDeck.h"
+#include "config.h"
 
 RewardDeck* RewardDeck::rd = nullptr;
 
@@ -22,3 +23,27 @@ RewardDeck& RewardDeck::make_RewardDeck() {
     
     return *rd;
 }
+
+#ifdef TEST_REWARD_DECK_
+
+int main() {
+    std::cout << "Testing Reward Class" << std::endl;
+
+    try {
+        RewardDeck rd = rd.make_RewardDeck();
+
+        std::cout << rd.isEmpty() << std::endl;
+        std::cout << *rd.getNext() << std::endl;
+        rd.shuffle();
+        std::cout << *rd.getNext() << std::endl;
+
+        std::cout << "Testing successfully" << std::endl;
+
+    } catch(...) {
+        std::cout << "Testing failed" << std::endl;
+    }
+
+    return 0;
+}
+
+#endif

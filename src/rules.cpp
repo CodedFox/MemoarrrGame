@@ -4,6 +4,7 @@
 
 #include "rules.h"
 #include "game.h"
+#include "config.h"
 
 // returns true is previous and current card match; false otherwise.
 bool Rules::isValid( const Game& g ) {
@@ -121,3 +122,39 @@ void Rules::applyExpertRules( Game& game ){
         std::cout << game << std::endl; 
     } 
 }
+
+#ifdef TEST_RULES_
+
+#include "cardDeck.h"
+#include "board.h"
+
+int main() {
+    std::cout << "Testing Reward Class" << std::endl;
+
+    try {
+        CardDeck cd = cd.make_CardDeck();
+        Game g(&cd, false, false);
+
+        Rules r;
+
+        g.addPlayer("Jon");
+        g.addPlayer("Nat");
+        g.addPlayer("Cornelia");
+        g.addPlayer("David");
+
+        g.setCurrentCard(g.getCard(Letter::A, Number::_1));
+
+        std::cout << r.isValid(g) << std::endl;
+        std::cout << r.roundOver(g) << std::endl;
+        std::cout << r.gameOver(g) << std::endl;
+
+        std::cout << "Testing successfully" << std::endl;
+
+    } catch(...) {
+        std::cout << "Testing failed" << std::endl;
+    }
+
+    return 0;
+}
+
+#endif

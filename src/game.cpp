@@ -7,6 +7,7 @@
 #include "game.h"
 #include "player.h"
 #include "card.h"
+#include "config.h"
 
 // void Game::addPlayer( const Player& p ) {
 void Game::addPlayer( const std::string name ) {
@@ -247,3 +248,43 @@ std::ostream & operator<<(std::ostream & os, const Game & g) {
 
     return os;
 }
+
+#ifdef TEST_GAME_
+
+int main() {
+    std::cout << "Testing Game Class" << std::endl;
+
+    try {
+        CardDeck cd = cd.make_CardDeck();
+        Game g(&cd, false, false);
+
+        g.addPlayer("Jon");
+        g.addPlayer("Nat");
+        g.addPlayer("Cornelia");
+        g.addPlayer("David");
+
+        std::cout << g << std::endl;
+
+        g.turnCardUp(Letter::A, Number::_1);
+        g.turnCardUp(Letter::C, Number::_2);
+        g.turnCardUp(Letter::D, Number::_5);
+        g.turnCardUp(Letter::E, Number::_4);
+        g.turnCardUp(Letter::B, Number::_3);
+
+        std::cout << g << std::endl;
+
+        std::cout << g << std::endl;
+        std::cout << g.getRound() << std::endl;
+        g.newRound();
+        std::cout << g.getRound() << std::endl;
+
+        std::cout << "Testing successfully" << std::endl;
+
+    } catch(...) {
+        std::cout << "Testing failed" << std::endl;
+    }
+
+    return 0;
+}
+
+#endif
