@@ -26,7 +26,7 @@ std::ostream& operator<<(std::ostream & os, const Player & p) {
         if (p.active) {
             os << " (active)";
         } else {
-            os << "inactive";
+            os << " (inactive)";
         }
     } else {
         os << p.name << ": " << p.rubies << " rubies";

@@ -20,18 +20,19 @@ int inputPlayer() {
     do {
         std::cout << "Please enter the number of players (2-4): " ;
         std::cin >> str;
-    } while(!std::regex_match(str, regex_pattern));
+    } while( !std::cin.fail() && !std::regex_match(str, regex_pattern) );
 
     return stoi(str);
 }
 
 bool askExpert(std::string word){
-    char answer;
+    std::string str;
+    std::regex regex_pattern("[yYnN]");
     do {
         std::cout << "Would you like to play with the expert " << word << "? [y/n]" << std::endl;
-        std::cin >> answer;
-    } while( !std::cin.fail() && answer!='y' && answer!='n' && answer!='N' && answer!='Y' );
-    if (answer == 'y' || answer =='Y') {
+        std::cin >> str;
+    } while( !std::cin.fail() && !std::regex_match(str, regex_pattern) );
+    if (str == "y" || str == "Y") {
         return true;
     }
     return false;
@@ -91,18 +92,18 @@ int main() {
             game.revealSideCards(Side(i));
         }
 
+        std::cout << game << std::endl;
+        std::cout << std::endl;
+
         // while Rules.roundOver is false
         while (!rules.roundOver(game)) {
-            
-            std::cout << game << std::endl;
-            std::cout << std::endl;
-
             // # next active player takes a turn
             std::cout<< (*game.getCurrentPlayer()).second.getName() << " it is your turn." << std::endl;
 
             // get selection of card to turn face up from active player update board in game
             Letter row = game.getRow();
             Number col = game.getCol();
+
 
             bool valid = false;
             while (!valid) {
@@ -114,38 +115,39 @@ int main() {
                     col = game.getCol();
                 }
             }
-            game.setCurrentCard(game.getCard(row, col));
-            game.addCardToOrder(row,col);
 
+            game.setBlockedPosition(Letter::C, Number::_3);
+
+            game.setCurrentCard(game.getCard(row, col));
+            game.addCardToOrder(row, col);
+
+            std::cout << std::endl;
+
+            game.turnCardUp(row, col);
+            std::cout << game << std::endl;
             std::cout << std::endl;
 
             // if Rules.isValid(card) is false
             if (!rules.isValid(game)) {
-                game.turnCardUp(row, col);
-                std::cout << game << std::endl;
 
                 // # player is no longer part of the current round
-                std::cout << "Wrong pair. You're out of this round " << (*game.getCurrentPlayer()).second.getName() << "!" << std::endl;
+                std::cout << "Your cards didn't match, yo. You're out of this round " << (*game.getCurrentPlayer()).second.getName() << "!" << std::endl;
                 std::cout << "Press 'ENTER' to continue." << std::endl;
                 std::cin.get();
                 std::cin.get();
 
-                game.turnCardDown(row, col);
                 // current player becomes inactive
                 game.getCurrentPlayer()->second.setActive(false);
 
-            } else if (game.getExpertRules() && !game.firstTurn()) {
+            } else if (game.getExpertRules() && !game.getFirstTurn()) {
                 // move is valid and expert rules are selected, need to deal with octopus, penguin, walrus
                 // crab and turtle are handled in getNextPlayer 
                 rules.applyExpertRules(game);
-
-            } else {
-                game.turnCardUp(row, col);
-                // display game
-                std::cout << game << std::endl;
+                std::cout << std::endl;
             }
-            Player nextPlayer = rules.getNextPlayer(game);
-            game.setCurrentPlayer(nextPlayer);
+
+            game.setCurrentPlayer(rules.getNextPlayer(game));
+            game.setFirstTurn(false);
         }
 
         game.setCurrentPlayer(rules.getNextPlayer(game));

@@ -75,7 +75,7 @@ void Board::setCard( const Letter& l, const Number& n, Card* c ) {
     if((l == Letter::C && n == Number::_3)) {
         throw std::out_of_range ("Error - Invalid Letter and Number combination.");
     }
-    gameBoard[std::make_pair(l, n)].second = c;
+    gameBoard[std::make_pair(l, n)].first = c;
 }
 
 std::ostream & operator<<(std::ostream & os, const Letter & l) {
