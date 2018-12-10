@@ -134,7 +134,7 @@ int main() {
             if (!rules.isValid(game)) {
 
                 // # player is no longer part of the current round
-                std::cout << "Your cards didn't match, yo. You're out of this round " << (*game.getCurrentPlayer()).second.getName() << "!" << std::endl;
+                std::cout << "Your cards didn't match. You're out of this round " << (*game.getCurrentPlayer()).second.getName() << "!" << std::endl;
                 std::cout << "Press 'ENTER' to continue." << std::endl;
                 std::cin.get();
                 std::cin.get();
